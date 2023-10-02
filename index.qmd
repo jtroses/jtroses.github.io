@@ -1,5 +1,5 @@
 ---
-title: "quarto_example"
+title: "jtroses.github.io"
 listing:
   contents: posts
   sort: "date desc"
