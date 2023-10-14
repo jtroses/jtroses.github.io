@@ -11,6 +11,4 @@ page-layout: full
 title-block-banner: true
 ---
 
-This is th efirst post in Janelle's quarto blog.
-
-![](https://png.pngtree.com/png-clipart/20211008/ourmid/pngtree-gold-dollar-coin-png-image_3975554.png)
+Janelle's Machine Learning Blog
