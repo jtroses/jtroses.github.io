@@ -1,9 +1,25 @@
 ---
 title: "Post With Code"
 author: "Janelle Rose"
-date: "2023-10-02"
-categories: [news, code, analysis]
-image: "image.jpg"
+date: now
+categories:
+  - news
+  - code
+  - analysis
+  - "data visualization"
+image: image.jpg
+jupyter:
+  jupytext:
+    formats: 'qmd, ipynb'
+    text_representation:
+      extension: .qmd
+      format_name: quarto
+      format_version: '1.0'
+      jupytext_version: 1.15.2
+  kernelspec:
+    display_name: Python 3 (ipykernel)
+    language: python
+    name: python3
 ---
 
 The plot below is from the \[Seaborn Python Library documentation\](https://seaborn.pydata.org/)

@@ -1,14 +1,11 @@
 {
-  "hash": "8a6023ceda51405a68e590f55f97dd2a",
+  "hash": "46c4099608573b6a432a56d3285644f7",
   "result": {
-    "markdown": "---\ntitle: \"Post With Code\"\nauthor: \"Janelle Rose\"\ndate: \"2023-10-02\"\ncategories: [news, code, analysis]\nimage: \"image.jpg\"\n---\n\n\nThe plot below is from the \\[Seaborn Python Library documentation\\](https://seaborn.pydata.org/)\n\n\n::: {.cell}\n\n```{.r .cell-code}\n1 + 1\n```\n\n::: {.cell-output .cell-output-stdout}\n```\n[1] 2\n```\n:::\n:::\n",
-    "supporting": [],
-    "filters": [
-      "rmarkdown/pagebreak.lua"
+    "markdown": "---\ntitle: Post With Code\nauthor: Janelle Rose\ndate: now\ncategories:\n  - news\n  - code\n  - analysis\n  - data visualization\nimage: image.jpg\n---\n\nThe plot below is from the \\[Seaborn Python Library documentation\\](https://seaborn.pydata.org/)\n\n\n```{r}\n1 + 1\n```\n\n",
+    "supporting": [
+      "index_files"
     ],
-    "includes": {},
-    "engineDependencies": {},
-    "preserve": {},
-    "postProcess": true
+    "filters": [],
+    "includes": {}
   }
 }
