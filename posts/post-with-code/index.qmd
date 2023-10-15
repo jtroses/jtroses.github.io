@@ -1,12 +1,12 @@
 ---
 title: "Post With Code"
-author: "Harlow Malloc"
+author: "Janelle Rose"
 date: "2023-10-02"
 categories: [news, code, analysis]
 image: "image.jpg"
 ---
 
-This is a post with executable code.
+The plot below is from the \[Seaborn Python Library documentation\](https://seaborn.pydata.org/)
 
 ```{r}
 1 + 1
