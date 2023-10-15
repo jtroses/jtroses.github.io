@@ -1,16 +1,16 @@
 ---
-title: "Post With Code"
-author: "Janelle Rose"
+title: Post With Code
+author: Janelle Rose
 date: now
 categories:
   - news
   - code
   - analysis
-  - "data visualization"
+  - data visualization
 image: image.jpg
 jupyter:
   jupytext:
-    formats: 'qmd, ipynb'
+    formats: 'ipynb,qmd'
     text_representation:
       extension: .qmd
       format_name: quarto
