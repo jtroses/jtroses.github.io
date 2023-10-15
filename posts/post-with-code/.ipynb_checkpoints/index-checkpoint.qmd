@@ -22,8 +22,8 @@ jupyter:
     name: python3
 ---
 
-The plot below is from the [Seaborn Python Library documentation](https://seaborn.pydata.org/)
+The plot below is from the \[Seaborn Python Library documentation\](https://seaborn.pydata.org/)
 
-```{python}
-
+```{r}
+1 + 1
 ```

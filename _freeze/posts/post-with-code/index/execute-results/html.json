@@ -1,7 +1,7 @@
 {
-  "hash": "46c4099608573b6a432a56d3285644f7",
+  "hash": "2e6cb13f9af6a1ba2f84b396fad20d0e",
   "result": {
-    "markdown": "---\ntitle: Post With Code\nauthor: Janelle Rose\ndate: now\ncategories:\n  - news\n  - code\n  - analysis\n  - data visualization\nimage: image.jpg\n---\n\nThe plot below is from the \\[Seaborn Python Library documentation\\](https://seaborn.pydata.org/)\n\n\n```{r}\n1 + 1\n```\n\n",
+    "markdown": "---\ntitle: Post With Code\nauthor: Janelle Rose\ndate: now\ncategories:\n  - news\n  - code\n  - analysis\n  - data visualization\nimage: image.jpg\n---\n\nThe plot below is from the [Seaborn Python Library documentation](https://seaborn.pydata.org/)\n\n",
     "supporting": [
       "index_files"
     ],
