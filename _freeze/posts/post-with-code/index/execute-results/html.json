@@ -1,7 +1,7 @@
 {
-  "hash": "81c26f5686382e8037234a060609baf5",
+  "hash": "cec6d7bb9877236c55ee7f9915f4b735",
   "result": {
-    "markdown": "---\ntitle: Post With Code\nauthor: Janelle Rose\ndate: now\ncategories:\n  - news\n  - code\n  - analysis\n  - data visualization\nimage: image.jpg\n---\n\nThe plot below is from the [Seaborn Python Library documentation](https://seaborn.pydata.org/)\n\n::: {.cell execution_count=1}\n\n::: {.cell-output .cell-output-display}\n![](index_files/figure-html/cell-2-output-1.png){width=745 height=515}\n:::\n:::\n\n\n",
+    "markdown": "---\ntitle: Post With Code\nauthor: Janelle Rose\ndate: now\ncategories:\n  - news\n  - code\n  - analysis\n  - data visualization\nimage: image.jpg\n---\n\nThe plot below is from the [Seaborn Python Library documentation](https://seaborn.pydata.org/)\n\n::: {.cell execution_count=1}\n\n::: {.cell-output .cell-output-display}\n![](index_files/figure-html/cell-2-output-1.png){width=745 height=515}\n:::\n:::\n\n\nThe plot below is from the [Yellowbrick Python Library documentation](https://www.scikit-yb.org/en/latest/api/features/jointplot.html?highlight=joint%20plot#joint-plot-visualization)  \n\n::: {.cell execution_count=2}\n``` {.python .cell-code}\nfrom yellowbrick.datasets import load_concrete\nfrom yellowbrick.features import JointPlotVisualizer\n\n# Load the dataset\nX, y = load_concrete()\n\n# Instantiate the visualizer\nvisualizer = JointPlotVisualizer(columns=\"cement\")\n\nvisualizer.fit_transform(X, y)        # Fit and transform the data\nvisualizer.show()     \n```\n\n::: {.cell-output .cell-output-display}\n![](index_files/figure-html/cell-3-output-1.png){width=753 height=513}\n:::\n\n::: {.cell-output .cell-output-display execution_count=2}\n```\n<Axes: xlabel='cement', ylabel='target'>\n```\n:::\n:::\n\n\n",
     "supporting": [
       "index_files"
     ],

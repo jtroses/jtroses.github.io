@@ -28,11 +28,11 @@ The plot below is from the [Seaborn Python Library documentation](https://seabor
 #| echo: false
 #| otuput: false
 
+# Writing in RStudio
+
 import warnings 
 
 warnings.filterwarnings("ignore")
-
-# Testing Python code in RStudio"
 
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -59,4 +59,20 @@ sns.stripplot(planets, x="distance", y="method", size=4, color=".3")
 ax.xaxis.grid(True)
 ax.set(ylabel="")
 sns.despine(trim=True, left=True)
+```
+
+The plot below is from the [Yellowbrick Python Library documentation](https://www.scikit-yb.org/en/latest/api/features/jointplot.html?highlight=joint%20plot#joint-plot-visualization)  
+
+```{python}
+from yellowbrick.datasets import load_concrete
+from yellowbrick.features import JointPlotVisualizer
+
+# Load the dataset
+X, y = load_concrete()
+
+# Instantiate the visualizer
+visualizer = JointPlotVisualizer(columns="cement")
+
+visualizer.fit_transform(X, y)        # Fit and transform the data
+visualizer.show()     
 ```

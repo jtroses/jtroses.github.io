@@ -10,7 +10,7 @@ categories:
 image: image.jpg
 jupyter:
   jupytext:
-    formats: 'qmd:quarto,ipynb'
+    formats: 'ipynb,qmd'
     text_representation:
       extension: .qmd
       format_name: quarto
@@ -28,11 +28,16 @@ The plot below is from the [Seaborn Python Library documentation](https://seabor
 #| echo: false
 #| otuput: false
 
+# Writing in RStudio
+
 import warnings 
 
 warnings.filterwarnings("ignore")
 
 # Testing Python code in RStudio"
+
+for i in range(9):
+    print(i)
 
 import seaborn as sns
 import matplotlib.pyplot as plt
