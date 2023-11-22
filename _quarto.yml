@@ -3,7 +3,7 @@ project:
   output-dir: docs
 
 website:
-  title: "jtroses.github.io"
+  title: "Machine Learning Blog"
   navbar:
     right:
       - about.qmd

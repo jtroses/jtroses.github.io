@@ -1,12 +1,15 @@
 ---
-title: "Janelle's Blog"
-author: "Tristan O'Malley"
-date: "2023-09-29"
-categories: [news]
+title: "Classification Example"
+author: "Janelle Rose"
+date: "2023-11-22"
+categories: [classification]
 ---
 
-This is the first post in a Quarto blog by Janelle. Welcome!
+Classification is a supervised machine learning technique, that is used with data that has labels. The example below uses a dataset that has attributes about individuals, including their salary, gender, education level, etc. The dataset also includes which whether or not the an individual is in a senior leadership role ore not. We use the attributes in the data to predict whether or not an individual is a senior leadership role or not based on some of the attributed from the data. 
 
-![](thumbnail.jpg)
-
-Since this post doesn't specify an explicit `image`, the first image in the post will be used in the listing page of posts.
+# Read in Dataset
+```{python}
+import pandas as pd
+salary = pd.read_csv('../../data/Salary.csv')
+salary.info()
+```

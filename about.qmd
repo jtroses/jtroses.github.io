@@ -13,7 +13,6 @@ about:
     - icon: github
       text: Github
       href: https://github.com
-
 ---
 
-About this blog
+I created this Blog for my Intro to machine learning course while I am learning different machine learning topics. Hopefully this examples can help someone work through some introductory topics
