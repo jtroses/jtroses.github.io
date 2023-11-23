@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "jtroses.github.io",
     "section": "",
-    "text": "Janelle’s Machine Learning Blog\n\n\n\n\n\n\n\n\n  \n\n\n\n\nPost With Code\n\n\n\n\n\n\n\nnews\n\n\ncode\n\n\nanalysis\n\n\ndata visualization\n\n\n\n\n\n\n\n\n\n\n\nNov 22, 2023\n\n\nJanelle Rose\n\n\n\n\n\n\n  \n\n\n\n\nClassification Example\n\n\n\n\n\n\n\nclassification\n\n\n\n\n\n\n\n\n\n\n\nNov 22, 2023\n\n\nJanelle Rose\n\n\n\n\n\n\nNo matching items"
+    "text": "Janelle’s Machine Learning Blog\n\n\n\n\n\n\n\n\n  \n\n\n\n\nPost With Code\n\n\n\n\n\n\n\nnews\n\n\ncode\n\n\nanalysis\n\n\ndata visualization\n\n\n\n\n\n\n\n\n\n\n\nNov 23, 2023\n\n\nJanelle Rose\n\n\n\n\n\n\n  \n\n\n\n\nClassification Example\n\n\n\n\n\n\n\nclassification\n\n\n\n\n\n\n\n\n\n\n\nNov 22, 2023\n\n\nJanelle Rose\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "posts/post-with-code/index.html",
@@ -25,7 +25,7 @@
     "href": "posts/welcome/index.html",
     "title": "Classification Example",
     "section": "",
-    "text": "Classification is a supervised machine learning technique, that is used with data that has labels. The example below uses a dataset that has attributes about individuals, including their salary, gender, education level, etc. The dataset also includes which whether or not the an individual is in a senior leadership role ore not. We use the attributes in the data to predict whether or not an individual is a senior leadership role or not based on some of the attributed from the data.\n\nRead in Dataset\n\nimport pandas as pd\nsalary = pd.read_csv('../../data/Salary.csv')\nsalary.info()\n\n&lt;class 'pandas.core.frame.DataFrame'&gt;\nRangeIndex: 6684 entries, 0 to 6683\nData columns (total 9 columns):\n #   Column               Non-Null Count  Dtype  \n---  ------               --------------  -----  \n 0   Age                  6684 non-null   float64\n 1   Gender               6684 non-null   object \n 2   Education Level      6684 non-null   int64  \n 3   Job Title            6684 non-null   object \n 4   Years of Experience  6684 non-null   float64\n 5   Salary               6684 non-null   float64\n 6   Country              6684 non-null   object \n 7   Race                 6684 non-null   object \n 8   Senior               6684 non-null   int64  \ndtypes: float64(3), int64(2), object(4)\nmemory usage: 470.1+ KB"
+    "text": "Classification is a supervised machine learning technique. Supervised training sets have desired solutions called labels. For the example below we are going to use classification to try and predict whether or not the an individual is in a senior leadership role.\nInformation about the dataset can be found here: salary-by-job-title-and-country"
   },
   {
     "objectID": "docs/index.html",
@@ -40,5 +40,12 @@
     "title": "Post With Code",
     "section": "",
     "text": "Janelle Rose\n2023-10-14\nThe plot below is from the Seaborn Python Library documentation"
+  },
+  {
+    "objectID": "posts/welcome/index.html#check-test-train-eval-split",
+    "href": "posts/welcome/index.html#check-test-train-eval-split",
+    "title": "Classification Example",
+    "section": "Check test, train, eval split",
+    "text": "Check test, train, eval split"
   }
 ]

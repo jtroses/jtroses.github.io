@@ -5,7 +5,9 @@ date: "2023-11-22"
 categories: [classification]
 ---
 
-Classification is a supervised machine learning technique, that is used with data that has labels. The example below uses a dataset that has attributes about individuals, including their salary, gender, education level, etc. The dataset also includes which whether or not the an individual is in a senior leadership role ore not. We use the attributes in the data to predict whether or not an individual is a senior leadership role or not based on some of the attributed from the data. 
+Classification is a supervised machine learning technique. Supervised training sets have desired solutions called labels. For the example below we are going to use classification to try and predict whether or not the an individual is in a senior leadership role. 
+
+Information about the dataset can be found here: [salary-by-job-title-and-country](https://www.kaggle.com/datasets/amirmahdiabbootalebi/salary-by-job-title-and-country)
 
 # Read in Dataset
 ```{python}
@@ -13,3 +15,37 @@ import pandas as pd
 salary = pd.read_csv('../../data/Salary.csv')
 salary.info()
 ```
+# Data Transformation 
+
+Let's visualize the numeric variables with histograms to check the shape of the data.
+```{python}
+import matplotlib.pyplot as plt
+
+salary.hist(bins = 20, figsize=(12, 8))
+plt.show()
+```
+
+Gender is a categorical attribute that is part of the model. Let's convert the categorical variable to a dummy variable that we can use in our classification model. 
+
+```{python}
+from sklearn.preprocessing import OneHotEncoder
+enc = OneHotEncoder(sparse_output = False).set_output(transform='pandas')
+gender_oh = enc.fit_transform(salary[['Gender']])
+salary = pd.concat([salary,gender_oh],axis=1)
+salary
+```
+The target attribute that we want to classify is 'Senior'. The 'Senior' attribute is currently an integer we are going to change it to a boolean for the purpose of this model. So '1' indicates that an individual has a senior position and '0' means that an individual does not has a senior position. 
+
+```{python}
+salary['senior_bool'] = salary.Senior.astype('bool')
+salary
+```
+
+# Correlation Matrix
+Let's look at the correlation between 'senior_bool' and the numerical variables in the salary dataset. 
+
+```{python}
+corr_matrix = salary.corr()
+corr_matrix['senior_bool'].sort_values(ascending = False)
+```
+## Check test, train, eval split
