@@ -620,7 +620,7 @@ memory usage: 470.1+ KB</code></pre>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>corr_matrix <span class="op">=</span> salary.corr()</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>corr_matrix[<span class="st">'senior_bool'</span>].sort_values(ascending <span class="op">=</span> <span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>C:\Users\janel\AppData\Local\Temp\ipykernel_31312\2222679277.py:1: FutureWarning:
+<pre><code>C:\Users\janel\AppData\Local\Temp\ipykernel_2772\2222679277.py:1: FutureWarning:
 
 The default value of numeric_only in DataFrame.corr is deprecated. In a future version, it will default to False. Select only valid columns or specify the value of numeric_only to silence this warning.
 </code></pre>
@@ -637,11 +637,211 @@ Gender_Female         -0.038852
 Name: senior_bool, dtype: float64</code></pre>
 </div>
 </div>
-<section id="check-test-train-eval-split" class="level2">
-<h2 class="anchored" data-anchor-id="check-test-train-eval-split">Check test, train, eval split</h2>
-
-
+<p>There does not seem to be a very high correlation with the senior_bool attribute but we’ll see how good of a classification model we can build.</p>
 </section>
+<section id="create-train-test-split-datasets" class="level1">
+<h1>Create Train Test Split Datasets</h1>
+<div class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>train_set, test_set <span class="op">=</span> train_test_split(salary, test_size<span class="op">=</span><span class="fl">0.2</span>, random_state <span class="op">=</span> <span class="dv">35</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>train_set</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="6">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Age</th>
+<th data-quarto-table-cell-role="th">Gender</th>
+<th data-quarto-table-cell-role="th">Education Level</th>
+<th data-quarto-table-cell-role="th">Job Title</th>
+<th data-quarto-table-cell-role="th">Years of Experience</th>
+<th data-quarto-table-cell-role="th">Salary</th>
+<th data-quarto-table-cell-role="th">Country</th>
+<th data-quarto-table-cell-role="th">Race</th>
+<th data-quarto-table-cell-role="th">Senior</th>
+<th data-quarto-table-cell-role="th">Gender_Female</th>
+<th data-quarto-table-cell-role="th">Gender_Male</th>
+<th data-quarto-table-cell-role="th">senior_bool</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">950</td>
+<td>42.0</td>
+<td>Female</td>
+<td>1</td>
+<td>Software Engineer</td>
+<td>13.0</td>
+<td>197000.0</td>
+<td>USA</td>
+<td>White</td>
+<td>0</td>
+<td>1.0</td>
+<td>0.0</td>
+<td>False</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5568</td>
+<td>27.0</td>
+<td>Male</td>
+<td>1</td>
+<td>Software Engineer</td>
+<td>3.0</td>
+<td>80000.0</td>
+<td>China</td>
+<td>Korean</td>
+<td>0</td>
+<td>0.0</td>
+<td>1.0</td>
+<td>False</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">1978</td>
+<td>32.0</td>
+<td>Female</td>
+<td>2</td>
+<td>Full Stack Engineer</td>
+<td>6.0</td>
+<td>115000.0</td>
+<td>Canada</td>
+<td>Asian</td>
+<td>0</td>
+<td>1.0</td>
+<td>0.0</td>
+<td>False</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5918</td>
+<td>31.0</td>
+<td>Female</td>
+<td>3</td>
+<td>Data Scientist</td>
+<td>8.0</td>
+<td>140000.0</td>
+<td>USA</td>
+<td>White</td>
+<td>0</td>
+<td>1.0</td>
+<td>0.0</td>
+<td>False</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2905</td>
+<td>33.0</td>
+<td>Female</td>
+<td>2</td>
+<td>Project Engineer</td>
+<td>10.0</td>
+<td>113334.0</td>
+<td>Canada</td>
+<td>Asian</td>
+<td>1</td>
+<td>1.0</td>
+<td>0.0</td>
+<td>True</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">3321</td>
+<td>25.0</td>
+<td>Female</td>
+<td>2</td>
+<td>Software Engineer</td>
+<td>2.0</td>
+<td>60000.0</td>
+<td>China</td>
+<td>Korean</td>
+<td>0</td>
+<td>1.0</td>
+<td>0.0</td>
+<td>False</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3007</td>
+<td>34.0</td>
+<td>Male</td>
+<td>1</td>
+<td>Back end Developer</td>
+<td>10.0</td>
+<td>126520.0</td>
+<td>USA</td>
+<td>African American</td>
+<td>0</td>
+<td>0.0</td>
+<td>1.0</td>
+<td>False</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">951</td>
+<td>33.0</td>
+<td>Male</td>
+<td>1</td>
+<td>Data Analyst</td>
+<td>7.0</td>
+<td>142000.0</td>
+<td>USA</td>
+<td>White</td>
+<td>0</td>
+<td>0.0</td>
+<td>1.0</td>
+<td>False</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1295</td>
+<td>27.0</td>
+<td>Male</td>
+<td>1</td>
+<td>Front end Developer</td>
+<td>3.0</td>
+<td>80000.0</td>
+<td>UK</td>
+<td>Mixed</td>
+<td>0</td>
+<td>0.0</td>
+<td>1.0</td>
+<td>False</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">5833</td>
+<td>29.0</td>
+<td>Male</td>
+<td>1</td>
+<td>Marketing Analyst</td>
+<td>4.0</td>
+<td>70000.0</td>
+<td>USA</td>
+<td>African American</td>
+<td>0</td>
+<td>0.0</td>
+<td>1.0</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+
+<p>5347 rows × 12 columns</p>
+</div>
+</div>
+</div>
+
+
 </section>
 
 </main> <!-- /main -->
