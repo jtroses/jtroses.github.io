@@ -230,7 +230,7 @@ memory usage: 470.1+ KB</code></pre>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>gender_oh <span class="op">=</span> enc.fit_transform(salary[[<span class="st">'Gender'</span>]])</span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>salary <span class="op">=</span> pd.concat([salary,gender_oh],axis<span class="op">=</span><span class="dv">1</span>)</span>
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>salary</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="3">
+<div class="cell-output cell-output-display" data-execution_count="8">
 <div>
 
 
@@ -417,7 +417,7 @@ memory usage: 470.1+ KB</code></pre>
 <div class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>salary[<span class="st">'senior_bool'</span>] <span class="op">=</span> salary.Senior.astype(<span class="st">'bool'</span>)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>salary</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="4">
+<div class="cell-output cell-output-display" data-execution_count="9">
 <div>
 
 
@@ -625,7 +625,7 @@ memory usage: 470.1+ KB</code></pre>
 The default value of numeric_only in DataFrame.corr is deprecated. In a future version, it will default to False. Select only valid columns or specify the value of numeric_only to silence this warning.
 </code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="5">
+<div class="cell-output cell-output-display" data-execution_count="10">
 <pre><code>Senior                 1.000000
 senior_bool            1.000000
 Age                    0.334070
@@ -638,6 +638,13 @@ Name: senior_bool, dtype: float64</code></pre>
 </div>
 </div>
 <p>There does not seem to be a very high correlation with the senior_bool attribute but we’ll see how good of a classification model we can build.</p>
+</section>
+<section id="create-train-test-split-datasets" class="level1">
+<h1>Create Train Test Split Datasets</h1>
+<div class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>train_set, test_set <span class="op">=</span> train_test_split(salary, test_size<span class="op">=</span><span class="fl">0.2</span>, random_state <span class="op">=</span> <span class="dv">35</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 
 
 </section>

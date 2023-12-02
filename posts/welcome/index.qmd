@@ -50,3 +50,10 @@ corr_matrix['senior_bool'].sort_values(ascending = False)
 ```
 
 There does not seem to be a very high correlation with the senior_bool attribute but we'll see how good of a classification model we can build. 
+
+# Create Train Test Split Datasets 
+
+```{python}
+from sklearn.model_selection import train_test_split
+train_set, test_set = train_test_split(salary, test_size=0.2, random_state = 35)
+```
