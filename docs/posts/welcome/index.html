@@ -230,7 +230,7 @@ memory usage: 470.1+ KB</code></pre>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>gender_oh <span class="op">=</span> enc.fit_transform(salary[[<span class="st">'Gender'</span>]])</span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>salary <span class="op">=</span> pd.concat([salary,gender_oh],axis<span class="op">=</span><span class="dv">1</span>)</span>
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>salary</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="3">
+<div class="cell-output cell-output-display" data-execution_count="19">
 <div>
 
 
@@ -417,7 +417,7 @@ memory usage: 470.1+ KB</code></pre>
 <div class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>salary[<span class="st">'senior_bool'</span>] <span class="op">=</span> salary.Senior.astype(<span class="st">'bool'</span>)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>salary</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="4">
+<div class="cell-output cell-output-display" data-execution_count="20">
 <div>
 
 
@@ -620,12 +620,12 @@ memory usage: 470.1+ KB</code></pre>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>corr_matrix <span class="op">=</span> salary.corr()</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>corr_matrix[<span class="st">'senior_bool'</span>].sort_values(ascending <span class="op">=</span> <span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>C:\Users\janel\AppData\Local\Temp\ipykernel_2772\2222679277.py:1: FutureWarning:
+<pre><code>C:\Users\janel\AppData\Local\Temp\ipykernel_14000\2222679277.py:1: FutureWarning:
 
 The default value of numeric_only in DataFrame.corr is deprecated. In a future version, it will default to False. Select only valid columns or specify the value of numeric_only to silence this warning.
 </code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="5">
+<div class="cell-output cell-output-display" data-execution_count="21">
 <pre><code>Senior                 1.000000
 senior_bool            1.000000
 Age                    0.334070
@@ -643,203 +643,112 @@ Name: senior_bool, dtype: float64</code></pre>
 <h1>Create Train Test Split Datasets</h1>
 <div class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>train_set, test_set <span class="op">=</span> train_test_split(salary, test_size<span class="op">=</span><span class="fl">0.2</span>, random_state <span class="op">=</span> <span class="dv">35</span>)</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>train_set</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="6">
-<div>
-
-
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">Age</th>
-<th data-quarto-table-cell-role="th">Gender</th>
-<th data-quarto-table-cell-role="th">Education Level</th>
-<th data-quarto-table-cell-role="th">Job Title</th>
-<th data-quarto-table-cell-role="th">Years of Experience</th>
-<th data-quarto-table-cell-role="th">Salary</th>
-<th data-quarto-table-cell-role="th">Country</th>
-<th data-quarto-table-cell-role="th">Race</th>
-<th data-quarto-table-cell-role="th">Senior</th>
-<th data-quarto-table-cell-role="th">Gender_Female</th>
-<th data-quarto-table-cell-role="th">Gender_Male</th>
-<th data-quarto-table-cell-role="th">senior_bool</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">950</td>
-<td>42.0</td>
-<td>Female</td>
-<td>1</td>
-<td>Software Engineer</td>
-<td>13.0</td>
-<td>197000.0</td>
-<td>USA</td>
-<td>White</td>
-<td>0</td>
-<td>1.0</td>
-<td>0.0</td>
-<td>False</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">5568</td>
-<td>27.0</td>
-<td>Male</td>
-<td>1</td>
-<td>Software Engineer</td>
-<td>3.0</td>
-<td>80000.0</td>
-<td>China</td>
-<td>Korean</td>
-<td>0</td>
-<td>0.0</td>
-<td>1.0</td>
-<td>False</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">1978</td>
-<td>32.0</td>
-<td>Female</td>
-<td>2</td>
-<td>Full Stack Engineer</td>
-<td>6.0</td>
-<td>115000.0</td>
-<td>Canada</td>
-<td>Asian</td>
-<td>0</td>
-<td>1.0</td>
-<td>0.0</td>
-<td>False</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">5918</td>
-<td>31.0</td>
-<td>Female</td>
-<td>3</td>
-<td>Data Scientist</td>
-<td>8.0</td>
-<td>140000.0</td>
-<td>USA</td>
-<td>White</td>
-<td>0</td>
-<td>1.0</td>
-<td>0.0</td>
-<td>False</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2905</td>
-<td>33.0</td>
-<td>Female</td>
-<td>2</td>
-<td>Project Engineer</td>
-<td>10.0</td>
-<td>113334.0</td>
-<td>Canada</td>
-<td>Asian</td>
-<td>1</td>
-<td>1.0</td>
-<td>0.0</td>
-<td>True</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">3321</td>
-<td>25.0</td>
-<td>Female</td>
-<td>2</td>
-<td>Software Engineer</td>
-<td>2.0</td>
-<td>60000.0</td>
-<td>China</td>
-<td>Korean</td>
-<td>0</td>
-<td>1.0</td>
-<td>0.0</td>
-<td>False</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">3007</td>
-<td>34.0</td>
-<td>Male</td>
-<td>1</td>
-<td>Back end Developer</td>
-<td>10.0</td>
-<td>126520.0</td>
-<td>USA</td>
-<td>African American</td>
-<td>0</td>
-<td>0.0</td>
-<td>1.0</td>
-<td>False</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">951</td>
-<td>33.0</td>
-<td>Male</td>
-<td>1</td>
-<td>Data Analyst</td>
-<td>7.0</td>
-<td>142000.0</td>
-<td>USA</td>
-<td>White</td>
-<td>0</td>
-<td>0.0</td>
-<td>1.0</td>
-<td>False</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">1295</td>
-<td>27.0</td>
-<td>Male</td>
-<td>1</td>
-<td>Front end Developer</td>
-<td>3.0</td>
-<td>80000.0</td>
-<td>UK</td>
-<td>Mixed</td>
-<td>0</td>
-<td>0.0</td>
-<td>1.0</td>
-<td>False</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">5833</td>
-<td>29.0</td>
-<td>Male</td>
-<td>1</td>
-<td>Marketing Analyst</td>
-<td>4.0</td>
-<td>70000.0</td>
-<td>USA</td>
-<td>African American</td>
-<td>0</td>
-<td>0.0</td>
-<td>1.0</td>
-<td>False</td>
-</tr>
-</tbody>
-</table>
-
-<p>5347 rows × 12 columns</p>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>train_set, test_set <span class="op">=</span> train_test_split(salary, test_size<span class="op">=</span><span class="fl">0.2</span>, random_state <span class="op">=</span> <span class="dv">35</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>The dimensions of the training set:</strong></p>
+<div class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>train_set.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="23">
+<pre><code>(5347, 12)</code></pre>
 </div>
 </div>
+<p><strong>The dimentions of the test set:</strong></p>
+<div class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>test_set.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="24">
+<pre><code>(1337, 12)</code></pre>
 </div>
+</div>
+<p><strong>Training variables</strong></p>
+<div class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>X_train <span class="op">=</span> train_set[[<span class="st">'Age'</span>, <span class="st">'Salary'</span>, <span class="st">'Years of Experience'</span>, <span class="st">'Education Level'</span>]].to_numpy()</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>y_train <span class="op">=</span> train_set[<span class="st">'senior_bool'</span>].<span class="bu">apply</span>(<span class="bu">str</span>).to_numpy()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Test variables</strong></p>
+<div class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>X_test <span class="op">=</span> test_set[[<span class="st">'Age'</span>, <span class="st">'Salary'</span>, <span class="st">'Years of Experience'</span>, <span class="st">'Education Level'</span>]].to_numpy()</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>y_test <span class="op">=</span> test_set[<span class="st">'senior_bool'</span>].<span class="bu">apply</span>(<span class="bu">str</span>).to_numpy()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="stochastic-gradient-descent-classifier" class="level1">
+<h1>Stochastic Gradient Descent Classifier</h1>
+<p>First we will try the Stochastic gradient classifier to see how well it does at predicting whether a person has a senior role or not.</p>
+<div class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> SGDClassifier</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> cross_val_score</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>sgd_clf <span class="op">=</span> SGDClassifier(random_state<span class="op">=</span><span class="dv">42</span>)</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>cross_val_score(sgd_clf, X_train, y_train, cv <span class="op">=</span> <span class="dv">5</span>, scoring<span class="op">=</span><span class="st">'accuracy'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="27">
+<pre><code>array([0.14672897, 0.85327103, 0.85313377, 0.85313377, 0.85313377])</code></pre>
+</div>
+</div>
+<p>In 4 out of 5 of the folds the model scores over 85% but the 14% fold is pretty bad. Let’s compare it to the dummy classifier, which always selects the most frequent classifier which is <strong>not a senior</strong>.</p>
+</section>
+<section id="dummy-classifier" class="level1">
+<h1>Dummy Classifier</h1>
+<div class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.dummy <span class="im">import</span> DummyClassifier</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>dummy_clf <span class="op">=</span> DummyClassifier(random_state <span class="op">=</span> <span class="dv">42</span>)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>cross_val_score(dummy_clf, X_train, y_train, cv <span class="op">=</span> <span class="dv">5</span>, scoring<span class="op">=</span><span class="st">'accuracy'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="28">
+<pre><code>array([0.85327103, 0.85327103, 0.85313377, 0.85313377, 0.85313377])</code></pre>
+</div>
+</div>
+<p>It looks like the dummy classifier performs better than the SGD classifier. Let see if we can improve upon the performance with the Random Forest Classifier.</p>
+</section>
+<section id="random-forest-classifier" class="level1">
+<h1>Random Forest Classifier</h1>
+<div class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.ensemble <span class="im">import</span> RandomForestClassifier</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>forest_clf <span class="op">=</span> RandomForestClassifier(random_state<span class="op">=</span><span class="dv">42</span>)</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>cross_val_score(forest_clf, X_train, y_train, cv <span class="op">=</span> <span class="dv">5</span>, scoring<span class="op">=</span><span class="st">'accuracy'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="29">
+<pre><code>array([0.95607477, 0.96261682, 0.94574369, 0.95416277, 0.95509822])</code></pre>
+</div>
+</div>
+<p>The random forest classifier performs better than both the SGD and Dummy classifiers. CPrrectly predicting whether or not a person has a senior role of not over 94% of the time.</p>
+<p>Some of our attributes distributions were a bit skewed, let’s see if applying the Standard scaler improves the performance of the model.</p>
+</section>
+<section id="applying-standard-scaler-to-the-training-attributes" class="level1">
+<h1>Applying Standard Scaler to the Training Attributes</h1>
+<div class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>scaler <span class="op">=</span> StandardScaler()</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>X_train_scaled <span class="op">=</span> scaler.fit_transform(X_train.astype(<span class="st">'float64'</span>))</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>cross_val_score(forest_clf, X_train_scaled, y_train, cv <span class="op">=</span> <span class="dv">5</span>, scoring<span class="op">=</span><span class="st">'accuracy'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="30">
+<pre><code>array([0.95607477, 0.96261682, 0.94574369, 0.95416277, 0.95603368])</code></pre>
+</div>
+</div>
+<p>The scaler does not really improve the model, so we will stick with the raw data and create a Confusion Matri.</p>
+</section>
+<section id="confusion-matrix" class="level1">
+<h1>Confusion Matrix</h1>
+<div class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> ConfusionMatrixDisplay</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> cross_val_predict</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>y_train_pred <span class="op">=</span> cross_val_predict(forest_clf, X_train, y_train, cv <span class="op">=</span> <span class="dv">5</span>)</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>y_train_pred</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>ConfusionMatrixDisplay.from_predictions(y_train, y_train_pred, normalize <span class="op">=</span> <span class="st">"true"</span>, values_format <span class="op">=</span> <span class="st">".0%"</span>)</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="index_files/figure-html/cell-16-output-1.png" width="525" height="429"></p>
+</div>
+</div>
+<p>The confusion matrix shows us that 97% of the time there is a true Negative i.e a person who is identified as not being in a senior role is acurately categorized as false 97% of the time. On the other side of chart, 84% of the time there is a True Positive i.e.&nbsp;a person who is identifies as having a senior role is correct 84% of the time.</p>
+</section>
+<section id="evaluate-test-set" class="level1">
+<h1>Evaluate Test Set</h1>
+<div class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>forest_clf.fit(X_train, y_train) <span class="co"># fit the Random Forest model </span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>y_test_predict <span class="op">=</span> forest_clf.predict(X_test)</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>ConfusionMatrixDisplay.from_predictions(y_test, y_test_predict, normalize <span class="op">=</span> <span class="st">"true"</span>, values_format <span class="op">=</span> <span class="st">'.0%'</span>)</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="index_files/figure-html/cell-17-output-1.png" width="525" height="429"></p>
+</div>
+</div>
+<p>For evaluating the test set, 96% of the time there is a true Negative i.e a person who is identified as not being in a senior role is acurately categorized as false 96% of the time. On the other side of chart, 85% of the time there is a True Positive i.e.&nbsp;a person who is identifies as having a senior role is correct 85% of the time. Which aligns closely with what we saw in the training dataset.</p>
 
 
 </section>

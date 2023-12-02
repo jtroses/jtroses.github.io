@@ -54,7 +54,98 @@ There does not seem to be a very high correlation with the senior_bool attribute
 # Create Train Test Split Datasets 
 
 ```{python}
+#| warning: false
 from sklearn.model_selection import train_test_split
 train_set, test_set = train_test_split(salary, test_size=0.2, random_state = 35)
-train_set
 ```
+
+**The dimensions of the training set:**
+```{python}
+train_set.shape
+```
+
+**The dimentions of the test set:**
+```{python}
+test_set.shape
+```
+
+**Training variables**
+```{python}
+X_train = train_set[['Age', 'Salary', 'Years of Experience', 'Education Level']].to_numpy()
+y_train = train_set['senior_bool'].apply(str).to_numpy()
+```
+
+**Test variables**
+```{python}
+X_test = test_set[['Age', 'Salary', 'Years of Experience', 'Education Level']].to_numpy()
+y_test = test_set['senior_bool'].apply(str).to_numpy()
+```
+# Stochastic Gradient Descent Classifier
+
+First we will try the Stochastic gradient classifier to see how well it does at predicting whether a person has a senior role or not. 
+
+```{python}
+from sklearn.linear_model import SGDClassifier
+from sklearn.model_selection import cross_val_score
+sgd_clf = SGDClassifier(random_state=42)
+cross_val_score(sgd_clf, X_train, y_train, cv = 5, scoring='accuracy')
+```
+
+In 4 out of 5 of the folds the model scores over 85% but the 14% fold is pretty bad. Let's compare it to the dummy classifier, which always selects the most frequent classifier which is **not a senior**.
+
+# Dummy Classifier
+
+```{python}
+from sklearn.dummy import DummyClassifier
+dummy_clf = DummyClassifier(random_state = 42)
+cross_val_score(dummy_clf, X_train, y_train, cv = 5, scoring='accuracy')
+```
+
+It looks like the dummy classifier performs better than the SGD classifier. Let see if we can improve upon the performance with the Random Forest Classifier. 
+
+# Random Forest Classifier
+
+```{python}
+from sklearn.ensemble import RandomForestClassifier
+forest_clf = RandomForestClassifier(random_state=42)
+cross_val_score(forest_clf, X_train, y_train, cv = 5, scoring='accuracy')
+```
+
+The random forest classifier performs better than both the SGD and Dummy classifiers. CPrrectly predicting whether or not a person has a senior role of not over 94% of the time. 
+
+Some of our attributes distributions were a bit skewed, let's see if applying the Standard scaler improves the performance of the model. 
+
+# Applying Standard Scaler to the Training Attributes
+
+```{python}
+from sklearn.preprocessing import StandardScaler
+scaler = StandardScaler()
+X_train_scaled = scaler.fit_transform(X_train.astype('float64'))
+cross_val_score(forest_clf, X_train_scaled, y_train, cv = 5, scoring='accuracy')
+```
+
+The scaler does not really improve the model, so we will stick with the raw data and create a Confusion Matri. 
+
+# Confusion Matrix 
+
+```{python}
+from sklearn.metrics import ConfusionMatrixDisplay
+from sklearn.model_selection import cross_val_predict
+y_train_pred = cross_val_predict(forest_clf, X_train, y_train, cv = 5)
+y_train_pred
+ConfusionMatrixDisplay.from_predictions(y_train, y_train_pred, normalize = "true", values_format = ".0%")
+plt.show()
+```
+
+The confusion matrix shows us that 97% of the time there is a true Negative i.e a person who is identified as not being in a senior role is acurately categorized as false 97% of the time. On the other side of chart, 84% of the time there is a True Positive i.e. a person who is identifies as having a senior role is correct 84% of the time. 
+
+# Evaluate Test Set
+
+```{python}
+forest_clf.fit(X_train, y_train) # fit the Random Forest model 
+y_test_predict = forest_clf.predict(X_test)
+ConfusionMatrixDisplay.from_predictions(y_test, y_test_predict, normalize = "true", values_format = '.0%')
+plt.show()
+```
+
+For evaluating the test set, 96% of the time there is a true Negative i.e a person who is identified as not being in a senior role is acurately categorized as false 96% of the time. On the other side of chart, 85% of the time there is a True Positive i.e. a person who is identifies as having a senior role is correct 85% of the time. Which aligns closely with what we saw in the training dataset.  

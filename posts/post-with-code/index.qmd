@@ -33,6 +33,7 @@ The plot below is from the [Seaborn Python Library documentation](https://seabor
         -   DBSCAN labels for scatter plot
     3.  Linear and nonlinear regression
         -   line or scatter plot, Random Forest
+        -   Nonlinear: Random Forest, Decision Trees
     4.  Classification
         -   ROC, PR, Confusion Matrix, Random Forest
         -   K nearest neighbor
