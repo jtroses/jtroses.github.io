@@ -1,0 +1,33 @@
+digraph Tree {
+node [shape=box, style="rounded", color="black", fontname="helvetica"] ;
+edge [fontname="helvetica"] ;
+0 [label="Years of Experience <= 5.5\nsquared_error = 2837602962.1\nsamples = 3432\nvalue = 115143.7"] ;
+1 [label="Years of Experience <= 2.5\nsquared_error = 1035682394.3\nsamples = 1452\nvalue = 68329.9"] ;
+0 -> 1 [labeldistance=2.5, labelangle=45, headlabel="True"] ;
+2 [label="Years of Experience <= 1.8\nsquared_error = 509538982.2\nsamples = 674\nvalue = 50075.6"] ;
+1 -> 2 ;
+3 [label="squared_error = 402125859.3\nsamples = 365\nvalue = 43201.3"] ;
+2 -> 3 ;
+4 [label="squared_error = 512460170.0\nsamples = 309\nvalue = 58479.1"] ;
+2 -> 4 ;
+5 [label="Years of Experience <= 4.5\nsquared_error = 949697702.2\nsamples = 778\nvalue = 84287.1"] ;
+1 -> 5 ;
+6 [label="squared_error = 795958161.5\nsamples = 587\nvalue = 78068.1"] ;
+5 -> 6 ;
+7 [label="squared_error = 943639428.8\nsamples = 191\nvalue = 103111.0"] ;
+5 -> 7 ;
+8 [label="Years of Experience <= 10.5\nsquared_error = 1399805727.3\nsamples = 1980\nvalue = 149128.3"] ;
+0 -> 8 [labeldistance=2.5, labelangle=-45, headlabel="False"] ;
+9 [label="Age <= 31.5\nsquared_error = 1071026418.9\nsamples = 907\nvalue = 124406.7"] ;
+8 -> 9 ;
+10 [label="squared_error = 1299973984.1\nsamples = 280\nvalue = 140668.2"] ;
+9 -> 10 ;
+11 [label="squared_error = 802238606.1\nsamples = 627\nvalue = 117240.4"] ;
+9 -> 11 ;
+12 [label="Years of Experience <= 15.5\nsquared_error = 738917390.3\nsamples = 1073\nvalue = 169751.6"] ;
+8 -> 12 ;
+13 [label="squared_error = 647157399.4\nsamples = 605\nvalue = 157427.6"] ;
+12 -> 13 ;
+14 [label="squared_error = 413408172.3\nsamples = 468\nvalue = 185518.4"] ;
+12 -> 14 ;
+}

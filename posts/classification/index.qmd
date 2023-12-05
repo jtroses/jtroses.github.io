@@ -1,23 +1,26 @@
 ---
 title: "Classification Example"
 author: "Janelle Rose"
-date: "2023-11-22"
+date: now
 categories: [classification]
 ---
 
-Classification is a supervised machine learning technique. Supervised training sets have desired solutions called labels. For the example below we are going to use classification to try and predict whether or not the an individual is in a senior leadership role. 
+Classification is a supervised machine learning technique. Supervised training sets have desired solutions called labels. For the example below we are going to use classification to try and predict whether or not the an individual is in a senior leadership role.
 
 Information about the dataset can be found here: [salary-by-job-title-and-country](https://www.kaggle.com/datasets/amirmahdiabbootalebi/salary-by-job-title-and-country)
 
 # Read in Dataset
+
 ```{python}
 import pandas as pd
 salary = pd.read_csv('../../data/Salary.csv')
 salary.info()
 ```
-# Data Transformation 
+
+# Data Transformation
 
 Let's visualize the numeric variables with histograms to check the shape of the data.
+
 ```{python}
 import matplotlib.pyplot as plt
 
@@ -25,7 +28,7 @@ salary.hist(bins = 20, figsize=(12, 8))
 plt.show()
 ```
 
-Gender is a categorical attribute that is part of the model. Let's convert the categorical variable to a dummy variable that we can use in our classification model. 
+Gender is a categorical attribute that is part of the model. Let's convert the categorical variable to a dummy variable that we can use in our classification model.
 
 ```{python}
 from sklearn.preprocessing import OneHotEncoder
@@ -34,7 +37,8 @@ gender_oh = enc.fit_transform(salary[['Gender']])
 salary = pd.concat([salary,gender_oh],axis=1)
 salary
 ```
-The target attribute that we want to classify is 'Senior'. The 'Senior' attribute is currently an integer we are going to change it to a boolean for the purpose of this model. So '1' indicates that an individual has a senior position and '0' means that an individual does not has a senior position. 
+
+The target attribute that we want to classify is 'Senior'. The 'Senior' attribute is currently an integer we are going to change it to a boolean for the purpose of this model. So '1' indicates that an individual has a senior position and '0' means that an individual does not has a senior position.
 
 ```{python}
 salary['senior_bool'] = salary.Senior.astype('bool')
@@ -42,16 +46,17 @@ salary
 ```
 
 # Correlation Matrix
-Let's look at the correlation between 'senior_bool' and the numerical variables in the salary dataset. 
+
+Let's look at the correlation between 'senior_bool' and the numerical variables in the salary dataset.
 
 ```{python}
 corr_matrix = salary.corr()
 corr_matrix['senior_bool'].sort_values(ascending = False)
 ```
 
-There does not seem to be a very high correlation with the senior_bool attribute but we'll see how good of a classification model we can build. 
+There does not seem to be a very high correlation with the senior_bool attribute but we'll see how good of a classification model we can build.
 
-# Create Train Test Split Datasets 
+# Create Train Test Split Datasets
 
 ```{python}
 from sklearn.model_selection import train_test_split
@@ -59,29 +64,34 @@ train_set, test_set = train_test_split(salary, test_size=0.2, random_state = 35)
 ```
 
 **The dimensions of the training set:**
+
 ```{python}
 train_set.shape
 ```
 
 **The dimentions of the test set:**
+
 ```{python}
 test_set.shape
 ```
 
 **Training variables**
+
 ```{python}
 X_train = train_set[['Age', 'Salary', 'Years of Experience', 'Education Level']].to_numpy()
 y_train = train_set['senior_bool'].apply(str).to_numpy()
 ```
 
 **Test variables**
+
 ```{python}
 X_test = test_set[['Age', 'Salary', 'Years of Experience', 'Education Level']].to_numpy()
 y_test = test_set['senior_bool'].apply(str).to_numpy()
 ```
+
 # Stochastic Gradient Descent Classifier
 
-First we will try the Stochastic gradient classifier to see how well it does at predicting whether a person has a senior role or not. 
+First we will try the Stochastic gradient classifier to see how well it does at predicting whether a person has a senior role or not.
 
 ```{python}
 from sklearn.linear_model import SGDClassifier
@@ -100,7 +110,7 @@ dummy_clf = DummyClassifier(random_state = 42)
 cross_val_score(dummy_clf, X_train, y_train, cv = 5, scoring='accuracy')
 ```
 
-It looks like the dummy classifier performs better than the SGD classifier. Let see if we can improve upon the performance with the Random Forest Classifier. 
+It looks like the dummy classifier performs better than the SGD classifier. Let see if we can improve upon the performance with the Random Forest Classifier.
 
 # Random Forest Classifier
 
@@ -110,9 +120,9 @@ forest_clf = RandomForestClassifier(random_state=42)
 cross_val_score(forest_clf, X_train, y_train, cv = 5, scoring='accuracy')
 ```
 
-The random forest classifier performs better than both the SGD and Dummy classifiers. CPrrectly predicting whether or not a person has a senior role of not over 94% of the time. 
+The random forest classifier performs better than both the SGD and Dummy classifiers. CPrrectly predicting whether or not a person has a senior role of not over 94% of the time.
 
-Some of our attributes distributions were a bit skewed, let's see if applying the Standard scaler improves the performance of the model. 
+Some of our attributes distributions were a bit skewed, let's see if applying the Standard scaler improves the performance of the model.
 
 # Applying Standard Scaler to the Training Attributes
 
@@ -123,9 +133,9 @@ X_train_scaled = scaler.fit_transform(X_train.astype('float64'))
 cross_val_score(forest_clf, X_train_scaled, y_train, cv = 5, scoring='accuracy')
 ```
 
-The scaler does not really improve the model, so we will stick with the raw data and create a Confusion Matri. 
+The scaler does not really improve the model, so we will stick with the raw data and create a Confusion Matri.
 
-# Confusion Matrix 
+# Confusion Matrix
 
 ```{python}
 from sklearn.metrics import ConfusionMatrixDisplay
@@ -136,7 +146,7 @@ ConfusionMatrixDisplay.from_predictions(y_train, y_train_pred, normalize = "true
 plt.show()
 ```
 
-The confusion matrix shows us that 97% of the time there is a true Negative i.e a person who is identified as not being in a senior role is acurately categorized as false 97% of the time. On the other side of chart, 84% of the time there is a True Positive i.e. a person who is identifies as having a senior role is correct 84% of the time. 
+The confusion matrix shows us that 97% of the time there is a true Negative i.e a person who is identified as not being in a senior role is acurately categorized as false 97% of the time. On the other side of chart, 84% of the time there is a True Positive i.e. a person who is identifies as having a senior role is correct 84% of the time.
 
 # Evaluate Test Set
 
@@ -147,4 +157,4 @@ ConfusionMatrixDisplay.from_predictions(y_test, y_test_predict, normalize = "tru
 plt.show()
 ```
 
-For evaluating the test set, 96% of the time there is a true Negative i.e a person who is identified as not being in a senior role is acurately categorized as false 96% of the time. On the other side of chart, 85% of the time there is a True Positive i.e. a person who is identifies as having a senior role is correct 85% of the time. Which aligns closely with what we saw in the training dataset.  
+For evaluating the test set, 96% of the time there is a true Negative i.e a person who is identified as not being in a senior role is acurately categorized as false 96% of the time. On the other side of chart, 85% of the time there is a True Positive i.e. a person who is identifies as having a senior role is correct 85% of the time. Which aligns closely with what we saw in the training dataset.

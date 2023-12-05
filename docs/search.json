@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "jtroses.github.io",
     "section": "",
-    "text": "Janelle’s Machine Learning Blog\n\n\n\n\n\n\n\n\n  \n\n\n\n\nPost With Code\n\n\n\n\n\n\n\nnews\n\n\ncode\n\n\nanalysis\n\n\ndata visualization\n\n\n\n\n\n\n\n\n\n\n\nDec 2, 2023\n\n\nJanelle Rose\n\n\n\n\n\n\n  \n\n\n\n\nClassification Example\n\n\n\n\n\n\n\nclassification\n\n\n\n\n\n\n\n\n\n\n\nNov 22, 2023\n\n\nJanelle Rose\n\n\n\n\n\n\nNo matching items"
+    "text": "Janelle’s Machine Learning Blog\n\n\n\n\n\n\n\n\n  \n\n\n\n\nClassification Example\n\n\n\n\n\n\n\nclassification\n\n\n\n\n\n\n\n\n\n\n\nDec 4, 2023\n\n\nJanelle Rose\n\n\n\n\n\n\n  \n\n\n\n\nPost With Code\n\n\n\n\n\n\n\nnews\n\n\ncode\n\n\nanalysis\n\n\ndata visualization\n\n\n\n\n\n\n\n\n\n\n\nDec 4, 2023\n\n\nJanelle Rose\n\n\n\n\n\n\n  \n\n\n\n\nRegression\n\n\n\n\n\n\n\nregression\n\n\n\n\n\n\n\n\n\n\n\nDec 4, 2023\n\n\nJanelle Rose\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "posts/post-with-code/index.html",
@@ -47,5 +47,89 @@
     "title": "Classification Example",
     "section": "Check test, train, eval split",
     "text": "Check test, train, eval split"
+  },
+  {
+    "objectID": "posts/regression/index.html",
+    "href": "posts/regression/index.html",
+    "title": "Regression",
+    "section": "",
+    "text": "This blog post will compare a multilinear regression model to a random forest regression model to predict the salary of an individual based on years of experience and age. This model will create a train test split similar to what was done in the classification model blog post."
+  },
+  {
+    "objectID": "posts/regression/index.html#data",
+    "href": "posts/regression/index.html#data",
+    "title": "Regression",
+    "section": "Data",
+    "text": "Data\n\nimport pandas as pd\nsalary = pd.read_csv('../../data/Salary.csv')\nsalary.info()\n\n&lt;class 'pandas.core.frame.DataFrame'&gt;\nRangeIndex: 6684 entries, 0 to 6683\nData columns (total 9 columns):\n #   Column               Non-Null Count  Dtype  \n---  ------               --------------  -----  \n 0   Age                  6684 non-null   float64\n 1   Gender               6684 non-null   object \n 2   Education Level      6684 non-null   int64  \n 3   Job Title            6684 non-null   object \n 4   Years of Experience  6684 non-null   float64\n 5   Salary               6684 non-null   float64\n 6   Country              6684 non-null   object \n 7   Race                 6684 non-null   object \n 8   Senior               6684 non-null   int64  \ndtypes: float64(3), int64(2), object(4)\nmemory usage: 470.1+ KB"
+  },
+  {
+    "objectID": "posts/regression/index.html#variables",
+    "href": "posts/regression/index.html#variables",
+    "title": "Regression",
+    "section": "Variables",
+    "text": "Variables\nThe dependent/predicted variable is salary. The independent variables for the regression model is years of experience and age.\n\nX = salary[['Years of Experience', 'Age']]\ny = salary['Salary']"
+  },
+  {
+    "objectID": "posts/regression/index.html#visualizations",
+    "href": "posts/regression/index.html#visualizations",
+    "title": "Regression",
+    "section": "Visualizations",
+    "text": "Visualizations\nScatter plot of the independent variables (Years of Experience and Age) against the dependent variable salary.\n\nimport matplotlib.pyplot as plt\nX1 = salary['Years of Experience']\nX2 = salary['Age']\nplt.scatter(X1, y)\nplt.xlabel('Years of Experience')\nplt.ylabel('Salary')\nplt.show()\nplt.scatter(X2, y)\nplt.xlabel('Age')\nplt.ylabel('Salary')\nplt.show()"
+  },
+  {
+    "objectID": "posts/regression/index.html#linear-regression-performace-metric-rmse",
+    "href": "posts/regression/index.html#linear-regression-performace-metric-rmse",
+    "title": "Regression",
+    "section": "Linear Regression Performace metric RMSE",
+    "text": "Linear Regression Performace metric RMSE\nRoot mean squared error, RMSE, can be used to evaluate the model.\n\nfrom sklearn.metrics import mean_squared_error\nlin_rmse = mean_squared_error(y_train, salary_predictions, squared = False)\nlin_rmse\n\n30187.728961605248\n\n\nThe RMSE shows that the predicted value from the linear model may be off by $30,187 in either direction."
+  },
+  {
+    "objectID": "posts/regression/index.html#visualize-linear-regression-model",
+    "href": "posts/regression/index.html#visualize-linear-regression-model",
+    "title": "Regression",
+    "section": "Visualize Linear regression model",
+    "text": "Visualize Linear regression model\n\nimport numpy as np\nfig = plt.figure(figsize=(8, 6))\nax = fig.add_subplot(111, projection = '3d')\n\nax.scatter3D(\n    X1,\n    X2,\n    y_train,\n)\n\nax.set_xlabel(\"Years of Experience\")\nax.set_ylabel(\"Age\")\nax.set_zlabel(\"Salary\")\n\nxs = np.tile(np.arange(61), (61,1))\nys = np.tile(np.arange(61), (61,1)).T\nzs = xs*lin_reg.coef_[0]+ys*lin_reg.coef_[1]+lin_reg.intercept_\nax.plot_surface(xs,ys,zs, alpha=0.5)\nplt.show()"
+  },
+  {
+    "objectID": "posts/regression/index.html#create-train-test-split",
+    "href": "posts/regression/index.html#create-train-test-split",
+    "title": "Regression",
+    "section": "Create Train Test split",
+    "text": "Create Train Test split\nThe dependent/predicted variable is salary. The independent variables for the regression model is years of experience and age.\n\nfrom sklearn.model_selection import train_test_split\ntrain_set, test_set = train_test_split(salary, test_size=0.2, random_state = 35)\n\nTraining Set\n\nX_train = train_set[['Years of Experience', 'Age']]\ny_train =  train_set['Salary']\n\nTest variables\n\nX_test = test_set[['Years of Experience', 'Age']]\ny_test = test_set['Salary']"
+  },
+  {
+    "objectID": "posts/regression/index.html#random-forest-regression-model-performance-metrics",
+    "href": "posts/regression/index.html#random-forest-regression-model-performance-metrics",
+    "title": "Regression",
+    "section": "Random Forest regression model performance metrics",
+    "text": "Random Forest regression model performance metrics\n\nrf_rmse = mean_squared_error(y_train, rf_salary_pred, squared = False)\nrf_rmse\n\n20080.35337901558\n\n\nThe RMSE shows that the predicted value from the linear model may be off by $20,080 in either direction."
+  },
+  {
+    "objectID": "posts/regression/index.html#visualize-a-decision-tree-and-walk-through-example.",
+    "href": "posts/regression/index.html#visualize-a-decision-tree-and-walk-through-example.",
+    "title": "Regression",
+    "section": "Visualize a decision tree and walk through example.",
+    "text": "Visualize a decision tree and walk through example.\n\nfrom sklearn.tree import export_graphviz\nfrom graphviz import Source\nimport pydot\n\ntree_example = rf_reg.estimators_[5]\nexport_graphviz(tree_example, out_file ='small_tree.dot', feature_names = X_train.columns, rounded = True, precision = 1)\nSource.from_file(\"small_tree.dot\")\n#rf_small = RandomForestRegressor(n_estimators=10, max_depth = 3)\n#rf_small.fit(X, y)\n# Extract the small tree\n#tree_small = rf_small.estimators_[5]\n# Save the tree as a png image\n#export_graphviz(tree_small, out_file ='small_tree.dot', feature_names = X.columns, rounded = True, precision = 1)\n#Source.from_file(\"small_tree.dot\")"
+  },
+  {
+    "objectID": "posts/regression/index.html#visualize-a-decision-tree-with-a-smaller-tree",
+    "href": "posts/regression/index.html#visualize-a-decision-tree-with-a-smaller-tree",
+    "title": "Regression",
+    "section": "Visualize a decision tree with a smaller tree",
+    "text": "Visualize a decision tree with a smaller tree\n\nfrom sklearn.tree import export_graphviz\nfrom graphviz import Source\nimport pydot\n\nrf_small = RandomForestRegressor(n_estimators=10, max_depth = 3, random_state = 42)\nrf_small.fit(X_train, y_train)\nsmall_tree = rf_small.estimators_[5]\nexport_graphviz(small_tree, out_file ='small_tree.dot', feature_names = X_train.columns, rounded = True, precision = 1)\nSource.from_file(\"small_tree.dot\")\n\n\n\n\nWalk through example decision tree with observation\n\nX_train.iloc[0], y_train.iloc[0]\n\n(Years of Experience    13.0\n Age                    42.0\n Name: 950, dtype: float64,\n 197000.0)\n\n\nIn the example the root starts with Year of Expereince &lt;= 5.5, so we would follow the False response down the right side of the tree. The next level looks at Year of Expereince &lt;= 10.5, again we would follow the False response down the right side of the tree. Finally, the tree checks Year of Expereince &lt;= 15.5 to which we would respond True and the salary for Age 42 with 13 years of experience is predicted to be $157,427.60. The actual salary is $197,000.00."
+  },
+  {
+    "objectID": "posts/regression/index.html#evaluate-test-set",
+    "href": "posts/regression/index.html#evaluate-test-set",
+    "title": "Regression",
+    "section": "Evaluate Test set",
+    "text": "Evaluate Test set\nThe random forest model does a better job at predicting salay of an individual with a root mean square error of $20,080. So we will evalute the test set with the random forest model.\n\ny_test_predicted = rf_reg.predict(X_test)\nrf_test_rmse = mean_squared_error(y_test, y_test_predicted, squared = False)\nrf_test_rmse\n\n21540.630441944988\n\n\nThe test set has a similar RMSE to the training set."
+  },
+  {
+    "objectID": "posts/classification/index.html",
+    "href": "posts/classification/index.html",
+    "title": "Classification Example",
+    "section": "",
+    "text": "Classification is a supervised machine learning technique. Supervised training sets have desired solutions called labels. For the example below we are going to use classification to try and predict whether or not the an individual is in a senior leadership role.\nInformation about the dataset can be found here: salary-by-job-title-and-country\n\nRead in Dataset\n\nimport pandas as pd\nsalary = pd.read_csv('../../data/Salary.csv')\nsalary.info()\n\n&lt;class 'pandas.core.frame.DataFrame'&gt;\nRangeIndex: 6684 entries, 0 to 6683\nData columns (total 9 columns):\n #   Column               Non-Null Count  Dtype  \n---  ------               --------------  -----  \n 0   Age                  6684 non-null   float64\n 1   Gender               6684 non-null   object \n 2   Education Level      6684 non-null   int64  \n 3   Job Title            6684 non-null   object \n 4   Years of Experience  6684 non-null   float64\n 5   Salary               6684 non-null   float64\n 6   Country              6684 non-null   object \n 7   Race                 6684 non-null   object \n 8   Senior               6684 non-null   int64  \ndtypes: float64(3), int64(2), object(4)\nmemory usage: 470.1+ KB\n\n\n\n\nData Transformation\nLet’s visualize the numeric variables with histograms to check the shape of the data.\n\nimport matplotlib.pyplot as plt\n\nsalary.hist(bins = 20, figsize=(12, 8))\nplt.show()\n\n\n\n\nGender is a categorical attribute that is part of the model. Let’s convert the categorical variable to a dummy variable that we can use in our classification model.\n\nfrom sklearn.preprocessing import OneHotEncoder\nenc = OneHotEncoder(sparse_output = False).set_output(transform='pandas')\ngender_oh = enc.fit_transform(salary[['Gender']])\nsalary = pd.concat([salary,gender_oh],axis=1)\nsalary\n\n\n\n\n\n\n\n\nAge\nGender\nEducation Level\nJob Title\nYears of Experience\nSalary\nCountry\nRace\nSenior\nGender_Female\nGender_Male\n\n\n\n\n0\n32.0\nMale\n1\nSoftware Engineer\n5.0\n90000.0\nUK\nWhite\n0\n0.0\n1.0\n\n\n1\n28.0\nFemale\n2\nData Analyst\n3.0\n65000.0\nUSA\nHispanic\n0\n1.0\n0.0\n\n\n2\n45.0\nMale\n3\nManager\n15.0\n150000.0\nCanada\nWhite\n1\n0.0\n1.0\n\n\n3\n36.0\nFemale\n1\nSales Associate\n7.0\n60000.0\nUSA\nHispanic\n0\n1.0\n0.0\n\n\n4\n52.0\nMale\n2\nDirector\n20.0\n200000.0\nUSA\nAsian\n0\n0.0\n1.0\n\n\n...\n...\n...\n...\n...\n...\n...\n...\n...\n...\n...\n...\n\n\n6679\n49.0\nFemale\n3\nDirector of Marketing\n20.0\n200000.0\nUK\nMixed\n0\n1.0\n0.0\n\n\n6680\n32.0\nMale\n0\nSales Associate\n3.0\n50000.0\nAustralia\nAustralian\n0\n0.0\n1.0\n\n\n6681\n30.0\nFemale\n1\nFinancial Manager\n4.0\n55000.0\nChina\nChinese\n0\n1.0\n0.0\n\n\n6682\n46.0\nMale\n2\nMarketing Manager\n14.0\n140000.0\nChina\nKorean\n0\n0.0\n1.0\n\n\n6683\n26.0\nFemale\n0\nSales Executive\n1.0\n35000.0\nCanada\nBlack\n0\n1.0\n0.0\n\n\n\n\n6684 rows × 11 columns\n\n\n\nThe target attribute that we want to classify is ‘Senior’. The ‘Senior’ attribute is currently an integer we are going to change it to a boolean for the purpose of this model. So ‘1’ indicates that an individual has a senior position and ‘0’ means that an individual does not has a senior position.\n\nsalary['senior_bool'] = salary.Senior.astype('bool')\nsalary\n\n\n\n\n\n\n\n\nAge\nGender\nEducation Level\nJob Title\nYears of Experience\nSalary\nCountry\nRace\nSenior\nGender_Female\nGender_Male\nsenior_bool\n\n\n\n\n0\n32.0\nMale\n1\nSoftware Engineer\n5.0\n90000.0\nUK\nWhite\n0\n0.0\n1.0\nFalse\n\n\n1\n28.0\nFemale\n2\nData Analyst\n3.0\n65000.0\nUSA\nHispanic\n0\n1.0\n0.0\nFalse\n\n\n2\n45.0\nMale\n3\nManager\n15.0\n150000.0\nCanada\nWhite\n1\n0.0\n1.0\nTrue\n\n\n3\n36.0\nFemale\n1\nSales Associate\n7.0\n60000.0\nUSA\nHispanic\n0\n1.0\n0.0\nFalse\n\n\n4\n52.0\nMale\n2\nDirector\n20.0\n200000.0\nUSA\nAsian\n0\n0.0\n1.0\nFalse\n\n\n...\n...\n...\n...\n...\n...\n...\n...\n...\n...\n...\n...\n...\n\n\n6679\n49.0\nFemale\n3\nDirector of Marketing\n20.0\n200000.0\nUK\nMixed\n0\n1.0\n0.0\nFalse\n\n\n6680\n32.0\nMale\n0\nSales Associate\n3.0\n50000.0\nAustralia\nAustralian\n0\n0.0\n1.0\nFalse\n\n\n6681\n30.0\nFemale\n1\nFinancial Manager\n4.0\n55000.0\nChina\nChinese\n0\n1.0\n0.0\nFalse\n\n\n6682\n46.0\nMale\n2\nMarketing Manager\n14.0\n140000.0\nChina\nKorean\n0\n0.0\n1.0\nFalse\n\n\n6683\n26.0\nFemale\n0\nSales Executive\n1.0\n35000.0\nCanada\nBlack\n0\n1.0\n0.0\nFalse\n\n\n\n\n6684 rows × 12 columns\n\n\n\n\n\nCorrelation Matrix\nLet’s look at the correlation between ‘senior_bool’ and the numerical variables in the salary dataset.\n\ncorr_matrix = salary.corr()\ncorr_matrix['senior_bool'].sort_values(ascending = False)\n\nC:\\Users\\janel\\AppData\\Local\\Temp\\ipykernel_14424\\2222679277.py:1: FutureWarning:\n\nThe default value of numeric_only in DataFrame.corr is deprecated. In a future version, it will default to False. Select only valid columns or specify the value of numeric_only to silence this warning.\n\n\n\nSenior                 1.000000\nsenior_bool            1.000000\nAge                    0.334070\nYears of Experience    0.317877\nEducation Level        0.273466\nSalary                 0.223636\nGender_Male            0.038852\nGender_Female         -0.038852\nName: senior_bool, dtype: float64\n\n\nThere does not seem to be a very high correlation with the senior_bool attribute but we’ll see how good of a classification model we can build.\n\n\nCreate Train Test Split Datasets\n\nfrom sklearn.model_selection import train_test_split\ntrain_set, test_set = train_test_split(salary, test_size=0.2, random_state = 35)\n\nThe dimensions of the training set:\n\ntrain_set.shape\n\n(5347, 12)\n\n\nThe dimentions of the test set:\n\ntest_set.shape\n\n(1337, 12)\n\n\nTraining variables\n\nX_train = train_set[['Age', 'Salary', 'Years of Experience', 'Education Level']].to_numpy()\ny_train = train_set['senior_bool'].apply(str).to_numpy()\n\nTest variables\n\nX_test = test_set[['Age', 'Salary', 'Years of Experience', 'Education Level']].to_numpy()\ny_test = test_set['senior_bool'].apply(str).to_numpy()\n\n\n\nStochastic Gradient Descent Classifier\nFirst we will try the Stochastic gradient classifier to see how well it does at predicting whether a person has a senior role or not.\n\nfrom sklearn.linear_model import SGDClassifier\nfrom sklearn.model_selection import cross_val_score\nsgd_clf = SGDClassifier(random_state=42)\ncross_val_score(sgd_clf, X_train, y_train, cv = 5, scoring='accuracy')\n\narray([0.14672897, 0.85327103, 0.85313377, 0.85313377, 0.85313377])\n\n\nIn 4 out of 5 of the folds the model scores over 85% but the 14% fold is pretty bad. Let’s compare it to the dummy classifier, which always selects the most frequent classifier which is not a senior.\n\n\nDummy Classifier\n\nfrom sklearn.dummy import DummyClassifier\ndummy_clf = DummyClassifier(random_state = 42)\ncross_val_score(dummy_clf, X_train, y_train, cv = 5, scoring='accuracy')\n\narray([0.85327103, 0.85327103, 0.85313377, 0.85313377, 0.85313377])\n\n\nIt looks like the dummy classifier performs better than the SGD classifier. Let see if we can improve upon the performance with the Random Forest Classifier.\n\n\nRandom Forest Classifier\n\nfrom sklearn.ensemble import RandomForestClassifier\nforest_clf = RandomForestClassifier(random_state=42)\ncross_val_score(forest_clf, X_train, y_train, cv = 5, scoring='accuracy')\n\narray([0.95607477, 0.96261682, 0.94574369, 0.95416277, 0.95509822])\n\n\nThe random forest classifier performs better than both the SGD and Dummy classifiers. CPrrectly predicting whether or not a person has a senior role of not over 94% of the time.\nSome of our attributes distributions were a bit skewed, let’s see if applying the Standard scaler improves the performance of the model.\n\n\nApplying Standard Scaler to the Training Attributes\n\nfrom sklearn.preprocessing import StandardScaler\nscaler = StandardScaler()\nX_train_scaled = scaler.fit_transform(X_train.astype('float64'))\ncross_val_score(forest_clf, X_train_scaled, y_train, cv = 5, scoring='accuracy')\n\narray([0.95607477, 0.96261682, 0.94574369, 0.95416277, 0.95603368])\n\n\nThe scaler does not really improve the model, so we will stick with the raw data and create a Confusion Matri.\n\n\nConfusion Matrix\n\nfrom sklearn.metrics import ConfusionMatrixDisplay\nfrom sklearn.model_selection import cross_val_predict\ny_train_pred = cross_val_predict(forest_clf, X_train, y_train, cv = 5)\ny_train_pred\nConfusionMatrixDisplay.from_predictions(y_train, y_train_pred, normalize = \"true\", values_format = \".0%\")\nplt.show()\n\n\n\n\nThe confusion matrix shows us that 97% of the time there is a true Negative i.e a person who is identified as not being in a senior role is acurately categorized as false 97% of the time. On the other side of chart, 84% of the time there is a True Positive i.e. a person who is identifies as having a senior role is correct 84% of the time.\n\n\nEvaluate Test Set\n\nforest_clf.fit(X_train, y_train) # fit the Random Forest model \ny_test_predict = forest_clf.predict(X_test)\nConfusionMatrixDisplay.from_predictions(y_test, y_test_predict, normalize = \"true\", values_format = '.0%')\nplt.show()\n\n\n\n\nFor evaluating the test set, 96% of the time there is a true Negative i.e a person who is identified as not being in a senior role is acurately categorized as false 96% of the time. On the other side of chart, 85% of the time there is a True Positive i.e. a person who is identifies as having a senior role is correct 85% of the time. Which aligns closely with what we saw in the training dataset."
   }
 ]
