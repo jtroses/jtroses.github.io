@@ -90,3 +90,7 @@ plt.title("Local Outlier Factor (LOF)")
 plt.show()
 ```
 Original code here: [scikit-learn Outlier detection with Local Outlier Factor](https://scikit-learn.org/stable/auto_examples/neighbors/plot_lof_outlier_detection.html#outlier-detection-with-local-outlier-factor-lof)
+
+## Visualization Evaluation 
+
+From looking at the visualization it looks like the data point the represents a person of around `Age` 25 with 12 `Years of Experience` is indeed an outlier. 

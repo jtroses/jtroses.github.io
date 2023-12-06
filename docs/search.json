@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "jtroses.github.io",
     "section": "",
-    "text": "Janelle’s Machine Learning Blog\n\n\n\n\n\n\n\n\n  \n\n\n\n\nClassification\n\n\n\n\n\n\n\nclassification\n\n\nRandom Forest\n\n\nSGD\n\n\n\n\n\n\n\n\n\n\n\nDec 5, 2023\n\n\nJanelle Rose\n\n\n\n\n\n\n  \n\n\n\n\nOutlier Detection\n\n\n\n\n\n\n\nOutlier\n\n\nLocal Outlier Factor\n\n\n\n\n\n\n\n\n\n\n\nDec 5, 2023\n\n\nJanelle Rose\n\n\n\n\n\n\n  \n\n\n\n\nPost With Code\n\n\n\n\n\n\n\nnews\n\n\ncode\n\n\nanalysis\n\n\ndata visualization\n\n\n\n\n\n\n\n\n\n\n\nDec 5, 2023\n\n\nJanelle Rose\n\n\n\n\n\n\n  \n\n\n\n\nRegression\n\n\n\n\n\n\n\nRegression\n\n\nMultilinear Regression\n\n\nRandom Forest\n\n\n\n\n\n\n\n\n\n\n\nDec 5, 2023\n\n\nJanelle Rose\n\n\n\n\n\n\nNo matching items"
+    "text": "Janelle’s Machine Learning Blog\n\n\n\n\n\n\n\n\n  \n\n\n\n\nClassification\n\n\n\n\n\n\n\nclassification\n\n\nRandom Forest\n\n\nSGD\n\n\n\n\n\n\n\n\n\n\n\nDec 6, 2023\n\n\nJanelle Rose\n\n\n\n\n\n\n  \n\n\n\n\nK-Means Clustering\n\n\n\n\n\n\n\nClustering\n\n\nK-Means\n\n\n\n\n\n\n\n\n\n\n\nDec 6, 2023\n\n\nJanelle Rose\n\n\n\n\n\n\n  \n\n\n\n\nOutlier Detection\n\n\n\n\n\n\n\nOutlier\n\n\nLocal Outlier Factor\n\n\n\n\n\n\n\n\n\n\n\nDec 6, 2023\n\n\nJanelle Rose\n\n\n\n\n\n\n  \n\n\n\n\nPost With Code\n\n\n\n\n\n\n\nnews\n\n\ncode\n\n\nanalysis\n\n\ndata visualization\n\n\n\n\n\n\n\n\n\n\n\nDec 6, 2023\n\n\nJanelle Rose\n\n\n\n\n\n\n  \n\n\n\n\nRegression\n\n\n\n\n\n\n\nRegression\n\n\nMultilinear Regression\n\n\nRandom Forest\n\n\n\n\n\n\n\n\n\n\n\nDec 6, 2023\n\n\nJanelle Rose\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "posts/post-with-code/index.html",
@@ -152,5 +152,33 @@
     "title": "Outlier Detection",
     "section": "Visualizer Outliers",
     "text": "Visualizer Outliers\nIn the scatter plot below the observations in the red circles are flagged as outliers. the bgger the circle the more likely the observation is an outlier.\n\nimport matplotlib.pyplot as plt\nfrom matplotlib.legend_handler import HandlerPathCollection\n\n\ndef update_legend_marker_size(handle, orig):\n    \"Customize size of the legend marker\"\n    handle.update_from(orig)\n    handle.set_sizes([20])\n\n\nplt.scatter(X_scaled[:,0], X_scaled[:,1], color=\"k\", s=3.0, label=\"Data points\")\n# plot circles with radius proportional to the outlier scores\nradius = (X_scores.max() - X_scores) / (X_scores.max() - X_scores.min())\nscatter = plt.scatter(\n    X_scaled[:,0],\n    X_scaled[:,1],\n    s = 1000 * radius,\n    edgecolors=\"r\",\n    facecolors=\"none\",\n    label=\"Outlier scores\",\n)\nplt.axis(\"tight\")\nplt.xlim((-5, 5))\nplt.ylim((-5, 5))\nplt.xlabel(\"prediction errors: %d\" % (n_errors))\nplt.legend(\n    handler_map={scatter: HandlerPathCollection(update_func=update_legend_marker_size)}\n)\nplt.title(\"Local Outlier Factor (LOF)\")\nplt.show()\n\n\n\n\nOriginal code here: scikit-learn Outlier detection with Local Outlier Factor"
+  },
+  {
+    "objectID": "posts/outliers/index.html#visualization-evaluation",
+    "href": "posts/outliers/index.html#visualization-evaluation",
+    "title": "Outlier Detection",
+    "section": "Visualization Evaluation",
+    "text": "Visualization Evaluation\nFrom looking at the visualization it looks like the data point the represents a person of around Age 25 with 12 Years of Experience is indeed an outlier."
+  },
+  {
+    "objectID": "posts/Kmeans/index.html",
+    "href": "posts/Kmeans/index.html",
+    "title": "K-Means Clustering",
+    "section": "",
+    "text": "This blog post will look at K-Means clustering to create income groups from the salary attribute used in the Regression blog post. K-Means clustering is an unsupervised learning technique that is used with data that does not have a label. In this example, I would like to create 2 or 3 different groups to classify income levels. Such as High/Low salary or high/medium/low salary."
+  },
+  {
+    "objectID": "posts/Kmeans/index.html#subset-data",
+    "href": "posts/Kmeans/index.html#subset-data",
+    "title": "K-Means Clustering",
+    "section": "Subset Data",
+    "text": "Subset Data\n\nX = salary[['Salary', 'Years of Experience']]"
+  },
+  {
+    "objectID": "posts/Kmeans/index.html#calculate-iniertia",
+    "href": "posts/Kmeans/index.html#calculate-iniertia",
+    "title": "K-Means Clustering",
+    "section": "Calculate Iniertia",
+    "text": "Calculate Iniertia\n\nkmeans.inertia_\n\n214853743259.09015"
   }
 ]

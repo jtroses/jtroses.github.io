@@ -7,9 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Janelle Rose">
-<meta name="dcterms.date" content="2023-12-05">
+<meta name="dcterms.date" content="2023-12-06">
 
-<title>Machine Learning Blog - Outlier Detection</title>
+<title>Machine Learning Blog - K-Means Clustering</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -142,10 +142,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Outlier Detection</h1>
+      <h1 class="title">K-Means Clustering</h1>
                                 <div class="quarto-categories">
-                <div class="quarto-category">Outlier</div>
-                <div class="quarto-category">Local Outlier Factor</div>
+                <div class="quarto-category">Clustering</div>
+                <div class="quarto-category">K-Means</div>
               </div>
                   </div>
   </div>
@@ -163,7 +163,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">December 5, 2023</p>
+        <p class="date">December 6, 2023</p>
       </div>
     </div>
     
@@ -181,7 +181,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<p>This blog post will investigate outliers using the Local outlier factor, LOF, algorithm. The Local outlier factor algorith compares the density of instances around the given observation the the density around its neighbors. We will use the LOF method to identify outliers with the <code>Years of Expereince</code> and <code>Age</code> attributes we used to predict salaries in the regression <a href="https://jtroses.github.io/posts/regression/">blog post</a></p>
+<p>This blog post will look at K-Means clustering to create income groups from the salary attribute used in the Regression <a href="https://jtroses.github.io/posts/regression/">blog post</a>. K-Means clustering is an unsupervised learning technique that is used with data that does not have a label. In this example, I would like to create 2 or 3 different groups to classify income levels. Such as High/Low salary or high/medium/low salary.</p>
 <section id="data" class="level1">
 <h1>Data</h1>
 <div class="cell" data-execution_count="1">
@@ -207,98 +207,132 @@ dtypes: float64(3), int64(2), object(4)
 memory usage: 470.1+ KB</code></pre>
 </div>
 </div>
-</section>
-<section id="variables" class="level1">
-<h1>Variables</h1>
+<section id="subset-data" class="level2">
+<h2 class="anchored" data-anchor-id="subset-data">Subset Data</h2>
 <div class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> salary[[<span class="st">'Years of Experience'</span>, <span class="st">'Age'</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> salary[[<span class="st">'Salary'</span>, <span class="st">'Years of Experience'</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="visualization" class="level2">
-<h2 class="anchored" data-anchor-id="visualization">Visualization</h2>
+</section>
+</section>
+<section id="cluster-number-selection" class="level1">
+<h1>Cluster Number selection</h1>
 <div class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>X1 <span class="op">=</span> X[<span class="st">'Years of Experience'</span>]</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>X2 <span class="op">=</span> X[<span class="st">'Age'</span>]</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>plt.scatter(X1, X2)</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Years of Experience'</span>)</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Age'</span>)</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.cluster <span class="im">import</span> KMeans</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>inertias <span class="op">=</span> []</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>,<span class="dv">11</span>):</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    kmeans <span class="op">=</span> KMeans(n_clusters<span class="op">=</span>i)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    kmeans.fit(X)</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    inertias.append(kmeans.inertia_)</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>plt.plot(<span class="bu">range</span>(<span class="dv">1</span>,<span class="dv">11</span>), inertias, marker<span class="op">=</span><span class="st">'o'</span>)</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Elbow method'</span>)</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Number of clusters'</span>)</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Inertia'</span>)</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>C:\Users\janel\anaconda3\Lib\site-packages\sklearn\cluster\_kmeans.py:1412: FutureWarning:
+
+The default value of `n_init` will change from 10 to 'auto' in 1.4. Set the value of `n_init` explicitly to suppress the warning
+
+C:\Users\janel\anaconda3\Lib\site-packages\sklearn\cluster\_kmeans.py:1412: FutureWarning:
+
+The default value of `n_init` will change from 10 to 'auto' in 1.4. Set the value of `n_init` explicitly to suppress the warning
+
+C:\Users\janel\anaconda3\Lib\site-packages\sklearn\cluster\_kmeans.py:1412: FutureWarning:
+
+The default value of `n_init` will change from 10 to 'auto' in 1.4. Set the value of `n_init` explicitly to suppress the warning
+
+C:\Users\janel\anaconda3\Lib\site-packages\sklearn\cluster\_kmeans.py:1412: FutureWarning:
+
+The default value of `n_init` will change from 10 to 'auto' in 1.4. Set the value of `n_init` explicitly to suppress the warning
+
+C:\Users\janel\anaconda3\Lib\site-packages\sklearn\cluster\_kmeans.py:1412: FutureWarning:
+
+The default value of `n_init` will change from 10 to 'auto' in 1.4. Set the value of `n_init` explicitly to suppress the warning
+
+C:\Users\janel\anaconda3\Lib\site-packages\sklearn\cluster\_kmeans.py:1412: FutureWarning:
+
+The default value of `n_init` will change from 10 to 'auto' in 1.4. Set the value of `n_init` explicitly to suppress the warning
+
+C:\Users\janel\anaconda3\Lib\site-packages\sklearn\cluster\_kmeans.py:1412: FutureWarning:
+
+The default value of `n_init` will change from 10 to 'auto' in 1.4. Set the value of `n_init` explicitly to suppress the warning
+
+C:\Users\janel\anaconda3\Lib\site-packages\sklearn\cluster\_kmeans.py:1412: FutureWarning:
+
+The default value of `n_init` will change from 10 to 'auto' in 1.4. Set the value of `n_init` explicitly to suppress the warning
+
+C:\Users\janel\anaconda3\Lib\site-packages\sklearn\cluster\_kmeans.py:1412: FutureWarning:
+
+The default value of `n_init` will change from 10 to 'auto' in 1.4. Set the value of `n_init` explicitly to suppress the warning
+
+C:\Users\janel\anaconda3\Lib\site-packages\sklearn\cluster\_kmeans.py:1412: FutureWarning:
+
+The default value of `n_init` will change from 10 to 'auto' in 1.4. Set the value of `n_init` explicitly to suppress the warning
+</code></pre>
+</div>
 <div class="cell-output cell-output-display">
-<p><img src="index_files/figure-html/cell-4-output-1.png" width="585" height="429"></p>
+<p><img src="index_files/figure-html/cell-4-output-2.png" width="597" height="449"></p>
 </div>
 </div>
 </section>
-</section>
-<section id="standard-scaler" class="level1">
-<h1>Standard Scaler</h1>
-<p>Applying the standard scaler to normalize the data before detecting outliers.</p>
+<section id="calculate-iniertia" class="level1">
+<h1>Calculate Iniertia</h1>
 <div class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>scaler <span class="op">=</span> StandardScaler()</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>X_scaled <span class="op">=</span> scaler.fit_transform(X)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>kmeans.inertia_</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="9">
+<pre><code>213659604026.98798</code></pre>
+</div>
 </div>
 </section>
-<section id="local-outlier-factor" class="level1">
-<h1>Local Outlier Factor</h1>
-<p>Fitting <code>Years of Experience</code> and <code>Age</code> variables to the local outlier factor model. This will predict a 1 or -1 one for each observation. A predicted value of -1 represents an outlier.</p>
+<section id="visualizer-income-groups" class="level1">
+<h1>Visualizer income groups</h1>
 <div class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.neighbors <span class="im">import</span> LocalOutlierFactor</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>lof <span class="op">=</span> LocalOutlierFactor(n_neighbors<span class="op">=</span><span class="dv">20</span>,contamination<span class="op">=</span><span class="st">'auto'</span>)</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>y_pred <span class="op">=</span> lof.fit_predict(X_scaled)</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>n_errors <span class="op">=</span> (y_pred <span class="op">==</span> <span class="op">-</span><span class="dv">1</span>).<span class="bu">sum</span>()</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>X_scores <span class="op">=</span> lof.negative_outlier_factor_</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"outlier count: "</span>, n_errors)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>outlier count:  585</code></pre>
-</div>
-</div>
-<section id="visualizer-outliers" class="level2">
-<h2 class="anchored" data-anchor-id="visualizer-outliers">Visualizer Outliers</h2>
-<p>In the scatter plot below the observations in the red circles are flagged as outliers. the bgger the circle the more likely the observation is an outlier.</p>
-<div class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib.legend_handler <span class="im">import</span> HandlerPathCollection</span>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>kmeans_3 <span class="op">=</span> KMeans(n_clusters<span class="op">=</span><span class="dv">3</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>kmeans_3.fit(X)</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> update_legend_marker_size(handle, orig):</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">"Customize size of the legend marker"</span></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    handle.update_from(orig)</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    handle.set_sizes([<span class="dv">20</span>])</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>plt.scatter(X[<span class="st">'Salary'</span>], X[<span class="st">'Years of Experience'</span>], c<span class="op">=</span>kmeans_3.labels_)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>kmeans_2 <span class="op">=</span> KMeans(n_clusters<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>kmeans_2.fit(X)</span>
 <span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>plt.scatter(X_scaled[:,<span class="dv">0</span>], X_scaled[:,<span class="dv">1</span>], color<span class="op">=</span><span class="st">"k"</span>, s<span class="op">=</span><span class="fl">3.0</span>, label<span class="op">=</span><span class="st">"Data points"</span>)</span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="co"># plot circles with radius proportional to the outlier scores</span></span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>radius <span class="op">=</span> (X_scores.<span class="bu">max</span>() <span class="op">-</span> X_scores) <span class="op">/</span> (X_scores.<span class="bu">max</span>() <span class="op">-</span> X_scores.<span class="bu">min</span>())</span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>scatter <span class="op">=</span> plt.scatter(</span>
-<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>    X_scaled[:,<span class="dv">0</span>],</span>
-<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>    X_scaled[:,<span class="dv">1</span>],</span>
-<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>    s <span class="op">=</span> <span class="dv">1000</span> <span class="op">*</span> radius,</span>
-<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>    edgecolors<span class="op">=</span><span class="st">"r"</span>,</span>
-<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>    facecolors<span class="op">=</span><span class="st">"none"</span>,</span>
-<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>    label<span class="op">=</span><span class="st">"Outlier scores"</span>,</span>
-<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>plt.axis(<span class="st">"tight"</span>)</span>
-<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>plt.xlim((<span class="op">-</span><span class="dv">5</span>, <span class="dv">5</span>))</span>
-<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>plt.ylim((<span class="op">-</span><span class="dv">5</span>, <span class="dv">5</span>))</span>
-<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"prediction errors: </span><span class="sc">%d</span><span class="st">"</span> <span class="op">%</span> (n_errors))</span>
-<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>plt.legend(</span>
-<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>    handler_map<span class="op">=</span>{scatter: HandlerPathCollection(update_func<span class="op">=</span>update_legend_marker_size)}</span>
-<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Local Outlier Factor (LOF)"</span>)</span>
-<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>plt.scatter(X[<span class="st">'Salary'</span>], X[<span class="st">'Years of Experience'</span>], c<span class="op">=</span>kmeans_2.labels_)</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>C:\Users\janel\anaconda3\Lib\site-packages\sklearn\cluster\_kmeans.py:1412: FutureWarning:
+
+The default value of `n_init` will change from 10 to 'auto' in 1.4. Set the value of `n_init` explicitly to suppress the warning
+
+C:\Users\janel\anaconda3\Lib\site-packages\sklearn\cluster\_kmeans.py:1412: FutureWarning:
+
+The default value of `n_init` will change from 10 to 'auto' in 1.4. Set the value of `n_init` explicitly to suppress the warning
+</code></pre>
+</div>
 <div class="cell-output cell-output-display">
-<p><img src="index_files/figure-html/cell-7-output-1.png" width="569" height="449"></p>
+<p><img src="index_files/figure-html/cell-6-output-2.png" width="568" height="411"></p>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="index_files/figure-html/cell-6-output-3.png" width="568" height="411"></p>
 </div>
 </div>
-<p>Original code here: <a href="https://scikit-learn.org/stable/auto_examples/neighbors/plot_lof_outlier_detection.html#outlier-detection-with-local-outlier-factor-lof">scikit-learn Outlier detection with Local Outlier Factor</a></p>
-</section>
-<section id="visualization-evaluation" class="level2">
-<h2 class="anchored" data-anchor-id="visualization-evaluation">Visualization Evaluation</h2>
-<p>From looking at the visualization it looks like the data point the represents a person of around <code>Age</code> 25 with 12 <code>Years of Experience</code> is indeed an outlier.</p>
+<div class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>kmeans_3.inertia_</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="11">
+<pre><code>2036502710520.4521</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>kmeans_2.inertia_</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="12">
+<pre><code>4643146364105.234</code></pre>
+</div>
+</div>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
