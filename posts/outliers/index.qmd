@@ -1,0 +1,92 @@
+---
+title: "Outlier Detection"
+author: "Janelle Rose"
+date: now
+categories: 
+  - Outlier
+  - Local Outlier Factor
+---
+
+This blog post will investigate outliers using the Local outlier factor, LOF, algorithm. The Local outlier factor algorith compares the density of instances around the given observation the the density around its neighbors. We will use the LOF method to identify outliers with the `Years of Expereince` and `Age` attributes we used to predict salaries in the regression [blog post](https://jtroses.github.io/posts/regression/)
+ 
+# Data
+```{python}
+import pandas as pd
+salary = pd.read_csv('../../data/Salary.csv')
+salary.info()
+```
+
+# Variables 
+```{python}
+X = salary[['Years of Experience', 'Age']]
+```
+
+## Visualization 
+```{python}
+import matplotlib.pyplot as plt
+X1 = X['Years of Experience']
+X2 = X['Age']
+plt.scatter(X1, X2)
+plt.xlabel('Years of Experience')
+plt.ylabel('Age')
+plt.show()
+```
+
+# Standard Scaler
+Applying the standard scaler to normalize the data before detecting outliers. 
+
+```{python}
+from sklearn.preprocessing import StandardScaler
+scaler = StandardScaler()
+X_scaled = scaler.fit_transform(X)
+```
+
+# Local Outlier Factor
+
+Fitting `Years of Experience` and `Age` variables to the local outlier factor model. This will predict a 1 or -1 one for each observation. A predicted value of -1 represents an outlier.
+```{python}
+from sklearn.neighbors import LocalOutlierFactor
+lof = LocalOutlierFactor(n_neighbors=20,contamination='auto')
+
+y_pred = lof.fit_predict(X_scaled)
+n_errors = (y_pred == -1).sum()
+X_scores = lof.negative_outlier_factor_
+print("outlier count: ", n_errors)
+```
+
+## Visualizer Outliers 
+In the scatter plot below the observations in the red circles are flagged as outliers. the bgger the circle the more likely the observation is an outlier. 
+
+```{python}
+import matplotlib.pyplot as plt
+from matplotlib.legend_handler import HandlerPathCollection
+
+
+def update_legend_marker_size(handle, orig):
+    "Customize size of the legend marker"
+    handle.update_from(orig)
+    handle.set_sizes([20])
+
+
+plt.scatter(X_scaled[:,0], X_scaled[:,1], color="k", s=3.0, label="Data points")
+# plot circles with radius proportional to the outlier scores
+radius = (X_scores.max() - X_scores) / (X_scores.max() - X_scores.min())
+scatter = plt.scatter(
+    X_scaled[:,0],
+    X_scaled[:,1],
+    s = 1000 * radius,
+    edgecolors="r",
+    facecolors="none",
+    label="Outlier scores",
+)
+plt.axis("tight")
+plt.xlim((-5, 5))
+plt.ylim((-5, 5))
+plt.xlabel("prediction errors: %d" % (n_errors))
+plt.legend(
+    handler_map={scatter: HandlerPathCollection(update_func=update_legend_marker_size)}
+)
+plt.title("Local Outlier Factor (LOF)")
+plt.show()
+```
+Original code here: [scikit-learn Outlier detection with Local Outlier Factor](https://scikit-learn.org/stable/auto_examples/neighbors/plot_lof_outlier_detection.html#outlier-detection-with-local-outlier-factor-lof)

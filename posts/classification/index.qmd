@@ -1,8 +1,11 @@
 ---
-title: "Classification Example"
+title: "Classification"
 author: "Janelle Rose"
 date: now
-categories: [classification]
+categories:
+  - classification 
+  - Random Forest
+  - SGD
 ---
 
 Classification is a supervised machine learning technique. Supervised training sets have desired solutions called labels. For the example below we are going to use classification to try and predict whether or not the an individual is in a senior leadership role.

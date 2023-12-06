@@ -144,7 +144,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div class="quarto-title column-body">
       <h1 class="title">Regression</h1>
                                 <div class="quarto-categories">
-                <div class="quarto-category">regression</div>
+                <div class="quarto-category">Regression</div>
+                <div class="quarto-category">Multilinear Regression</div>
+                <div class="quarto-category">Random Forest</div>
               </div>
                   </div>
   </div>
@@ -180,7 +182,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<p>This blog post will compare a multilinear regression model to a random forest regression model to predict the salary of an individual based on years of experience and age. This model will create a train test split similar to what was done in the classification model blog post.</p>
+<p>This blog post will compare a multilinear regression model to a random forest regression model to predict the salary of an individual based on years of experience and age. This model will create a train test split similar to what was done in the classification model <a href="https://jtroses.github.io/posts/classification/">blog post</a>.</p>
 <section id="data" class="level1">
 <h1>Data</h1>
 <div class="cell" data-execution_count="1">
@@ -256,7 +258,7 @@ memory usage: 470.1+ KB</code></pre>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>lin_reg.fit(X_train, y_train)</span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>salary_predictions <span class="op">=</span> lin_reg.predict(X_train)</span>
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>salary_predictions</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="47">
+<div class="cell-output cell-output-display" data-execution_count="6">
 <pre><code>array([146071.02307777,  79966.62905167,  98857.94871481, ...,
        106408.38666211,  79966.62905167,  85637.06990959])</code></pre>
 </div>
@@ -268,7 +270,7 @@ memory usage: 470.1+ KB</code></pre>
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> mean_squared_error</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>lin_rmse <span class="op">=</span> mean_squared_error(y_train, salary_predictions, squared <span class="op">=</span> <span class="va">False</span>)</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>lin_rmse</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="48">
+<div class="cell-output cell-output-display" data-execution_count="7">
 <pre><code>30187.728961605248</code></pre>
 </div>
 </div>
@@ -312,7 +314,7 @@ memory usage: 470.1+ KB</code></pre>
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>rf_reg.fit(X_train, y_train)</span>
 <span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>rf_salary_pred <span class="op">=</span> rf_reg.predict(X_train)</span>
 <span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>rf_salary_pred</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="50">
+<div class="cell-output cell-output-display" data-execution_count="9">
 <pre><code>array([151605.73651837,  72863.03497451,  97089.06422832, ...,
        106279.30691462,  72863.03497451,  78542.92996524])</code></pre>
 </div>
@@ -321,7 +323,7 @@ memory usage: 470.1+ KB</code></pre>
 <h3 class="anchored" data-anchor-id="t_train">t_train</h3>
 <div class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>y_train</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="51">
+<div class="cell-output cell-output-display" data-execution_count="10">
 <pre><code>950     197000.0
 5568     80000.0
 1978    115000.0
@@ -342,7 +344,7 @@ Name: Salary, Length: 5347, dtype: float64</code></pre>
 <div class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>rf_rmse <span class="op">=</span> mean_squared_error(y_train, rf_salary_pred, squared <span class="op">=</span> <span class="va">False</span>)</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>rf_rmse</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="52">
+<div class="cell-output cell-output-display" data-execution_count="11">
 <pre><code>20080.35337901558</code></pre>
 </div>
 </div>
@@ -360,14 +362,14 @@ Name: Salary, Length: 5347, dtype: float64</code></pre>
 <span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>small_tree <span class="op">=</span> rf_small.estimators_[<span class="dv">5</span>]</span>
 <span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>export_graphviz(small_tree, out_file <span class="op">=</span><span class="st">'small_tree.dot'</span>, feature_names <span class="op">=</span> X_train.columns, rounded <span class="op">=</span> <span class="va">True</span>, precision <span class="op">=</span> <span class="dv">1</span>)</span>
 <span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>Source.from_file(<span class="st">"small_tree.dot"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="53">
+<div class="cell-output cell-output-display" data-execution_count="12">
 <p><img src="index_files/figure-html/cell-13-output-1.svg" class="img-fluid"></p>
 </div>
 </div>
 <p><strong>Walk through example decision tree with observation</strong></p>
 <div class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>X_train.iloc[<span class="dv">0</span>], y_train.iloc[<span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="54">
+<div class="cell-output cell-output-display" data-execution_count="13">
 <pre><code>(Years of Experience    13.0
  Age                    42.0
  Name: 950, dtype: float64,
@@ -383,7 +385,7 @@ Name: Salary, Length: 5347, dtype: float64</code></pre>
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>y_test_predicted <span class="op">=</span> rf_reg.predict(X_test)</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>rf_test_rmse <span class="op">=</span> mean_squared_error(y_test, y_test_predicted, squared <span class="op">=</span> <span class="va">False</span>)</span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>rf_test_rmse</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="55">
+<div class="cell-output cell-output-display" data-execution_count="14">
 <pre><code>21540.630441944988</code></pre>
 </div>
 </div>

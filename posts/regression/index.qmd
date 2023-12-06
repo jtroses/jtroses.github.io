@@ -2,10 +2,13 @@
 title: "Regression"
 author: "Janelle Rose"
 date: now
-categories: [regression]
+categories: 
+  - Regression
+  - Multilinear Regression
+  - Random Forest
 ---
 
-This blog post will compare a multilinear regression model to a random forest regression model to predict the salary of an individual based on years of experience and age. This model will create a train test split similar to what was done in the classification model blog post. 
+This blog post will compare a multilinear regression model to a random forest regression model to predict the salary of an individual based on years of experience and age. This model will create a train test split similar to what was done in the classification model [blog post](https://jtroses.github.io/posts/classification/). 
 
 # Data
 ```{python}
