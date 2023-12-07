@@ -23,7 +23,9 @@ X = salary[['Salary', 'Years of Experience']]
 ```
 
 # Cluster Number selection 
-```{python, warninng = FALSE}
+```{python, warning = FALSE}
+import warnings
+warnings.simplefilter(action='ignore', category=FutureWarning)
 import matplotlib.pyplot as plt
 from sklearn.cluster import KMeans
 
@@ -41,12 +43,13 @@ plt.ylabel('Inertia')
 plt.show()
 ```
 
-# Calculate Iniertia
+## Calculate Inertia
+We want to pick the number of clusters that gets closest to the models inertia value. 
 ```{python}
-kmeans.inertia_
+print("Model inertia: {:,}".format(kmeans.inertia_))
 ```
 
-# Visualizer income groups 
+# Visualize Clusters 
 ```{python}
 kmeans_3 = KMeans(n_clusters=3)
 kmeans_3.fit(X)
@@ -61,10 +64,13 @@ plt.scatter(X['Salary'], X['Years of Experience'], c=kmeans_2.labels_)
 plt.show()
 ```
 
+# Compare and Evaluate clusters
 ```{python}
-kmeans_3.inertia_
+print("Inertia for 3 clusters: {:,}".format(kmeans_3.inertia_))
 ```
 
 ```{python}
-kmeans_2.inertia_
+print("Inertia for 2 clusters: {:,}".format(kmeans_2.inertia_))
 ```
+
+The model with 3 clusters has a closer inertia to the inertia for the fitted model, so I would be able to separate the salary into categories low around \$80,000 and below, middle income between \$80,000 and \$140,000, and high income above \$140,000.  

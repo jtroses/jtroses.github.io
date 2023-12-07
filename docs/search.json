@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "jtroses.github.io",
     "section": "",
-    "text": "Janelle’s Machine Learning Blog\n\n\n\n\n\n\n\n\n  \n\n\n\n\nClassification\n\n\n\n\n\n\n\nclassification\n\n\nRandom Forest\n\n\nSGD\n\n\n\n\n\n\n\n\n\n\n\nDec 6, 2023\n\n\nJanelle Rose\n\n\n\n\n\n\n  \n\n\n\n\nK-Means Clustering\n\n\n\n\n\n\n\nClustering\n\n\nK-Means\n\n\n\n\n\n\n\n\n\n\n\nDec 6, 2023\n\n\nJanelle Rose\n\n\n\n\n\n\n  \n\n\n\n\nOutlier Detection\n\n\n\n\n\n\n\nOutlier\n\n\nLocal Outlier Factor\n\n\n\n\n\n\n\n\n\n\n\nDec 6, 2023\n\n\nJanelle Rose\n\n\n\n\n\n\n  \n\n\n\n\nPost With Code\n\n\n\n\n\n\n\nnews\n\n\ncode\n\n\nanalysis\n\n\ndata visualization\n\n\n\n\n\n\n\n\n\n\n\nDec 6, 2023\n\n\nJanelle Rose\n\n\n\n\n\n\n  \n\n\n\n\nRegression\n\n\n\n\n\n\n\nRegression\n\n\nMultilinear Regression\n\n\nRandom Forest\n\n\n\n\n\n\n\n\n\n\n\nDec 6, 2023\n\n\nJanelle Rose\n\n\n\n\n\n\nNo matching items"
+    "text": "Janelle’s Machine Learning Blog\n\n\n\n\n\n\n\n\n  \n\n\n\n\nClassification\n\n\n\n\n\n\n\nclassification\n\n\nRandom Forest\n\n\nSGD\n\n\n\n\n\n\n\n\n\n\n\nDec 7, 2023\n\n\nJanelle Rose\n\n\n\n\n\n\n  \n\n\n\n\nK-Means Clustering\n\n\n\n\n\n\n\nClustering\n\n\nK-Means\n\n\n\n\n\n\n\n\n\n\n\nDec 7, 2023\n\n\nJanelle Rose\n\n\n\n\n\n\n  \n\n\n\n\nOutlier Detection\n\n\n\n\n\n\n\nOutlier\n\n\nLocal Outlier Factor\n\n\n\n\n\n\n\n\n\n\n\nDec 7, 2023\n\n\nJanelle Rose\n\n\n\n\n\n\n  \n\n\n\n\nProbability\n\n\n\n\n\n\n\nProbability\n\n\nNaive Bayes\n\n\nProbability Density Function\n\n\n\n\n\n\n\n\n\n\n\nDec 7, 2023\n\n\nJanelle Rose\n\n\n\n\n\n\n  \n\n\n\n\nRegression\n\n\n\n\n\n\n\nRegression\n\n\nMultilinear Regression\n\n\nRandom Forest\n\n\n\n\n\n\n\n\n\n\n\nDec 7, 2023\n\n\nJanelle Rose\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "posts/post-with-code/index.html",
@@ -179,6 +179,34 @@
     "href": "posts/Kmeans/index.html#calculate-iniertia",
     "title": "K-Means Clustering",
     "section": "Calculate Iniertia",
-    "text": "Calculate Iniertia\n\nkmeans.inertia_\n\n214853743259.09015"
+    "text": "Calculate Iniertia\nWe want to pick the number of clusters that gets closest to the models inertia value.\n\nkmeans.inertia_\n\n211237593038.77795"
+  },
+  {
+    "objectID": "posts/Kmeans/index.html#calculate-inertia",
+    "href": "posts/Kmeans/index.html#calculate-inertia",
+    "title": "K-Means Clustering",
+    "section": "Calculate Inertia",
+    "text": "Calculate Inertia\nWe want to pick the number of clusters that gets closest to the models inertia value.\n\nprint(\"Model inertia: {:,}\".format(kmeans.inertia_))\n\nModel inertia: 214,194,360,946.64352"
+  },
+  {
+    "objectID": "posts/probability/index.html",
+    "href": "posts/probability/index.html",
+    "title": "Probability",
+    "section": "",
+    "text": "This blog post will use Naive Bayes classification to calculate the likelihood of a flower species given its petal length. The example will use a single flower with the petal length of 5 and calculate the probability of it being in each flower species."
+  },
+  {
+    "objectID": "posts/probability/index.html#frequncy-counts",
+    "href": "posts/probability/index.html#frequncy-counts",
+    "title": "Probability",
+    "section": "Frequncy Counts",
+    "text": "Frequncy Counts\nCalculate the frequency of each flower species in the dataset.\n\ndf_freq = df['species'].value_counts()\ndf_freq\n\nsetosa        50\nversicolor    50\nvirginica     50\nName: species, dtype: int64"
+  },
+  {
+    "objectID": "posts/probability/index.html#naive-bayes-classification-calculation",
+    "href": "posts/probability/index.html#naive-bayes-classification-calculation",
+    "title": "Probability",
+    "section": "Naive Bayes CLassification calculation",
+    "text": "Naive Bayes CLassification calculation\nEquation \\[\\begin{equation}\nf(y \\; | \\;  x_2) = \\frac{f(y)L(y \\; | \\;  x_2)}{f(x_2)} = \\frac{f(y)L(y \\; | \\;  x_2)}{\\sum_{\\text{all } y'} f(y')L(y' \\; | \\;  x_2)}  .\n\\tag{14.4}\n\\end{equation}\\]\nCalculation Prep\n\nfrom scipy.stats import norm\n\n#L(y = setosa | petal_length is 5)\nsetosa_pdf = norm.pdf(5, 1.462, 0.173664)\n\n#L(y = versicolor | petal_length is 5)\nversicolor_pdf = norm.pdf(5, 4.260, 0.469911)\n\n#L(y = virginica | petal_length is 5)\nvirginica_pdf = norm.pdf(5, 5.552, 0.551895)\n\n#marginal pdf of observing a flower with a petal length of 5 (Denominator of the Equation)\nm_pdf_5 = (50/150 * setosa_pdf) + (50/150 * versicolor_pdf) + (50/150 *  virginica_pdf)\n\n\nprob_setosa = (50/150 * setosa_pdf) /m_pdf_5\nprob_versicolor = (50/150 * versicolor_pdf) /m_pdf_5\nprob_virginica = (50/150 * virginica_pdf) /m_pdf_5\n\nprint('The probability that a flower will be setosa  with the petal length of 5 is: ', prob_setosa)\nprint('The probability that a flower will be versicolor  with the petal length of 5 is: ', prob_versicolor)\nprint('The probability that a flower will be virginica  with the petal length of 5 is: ', prob_virginica)\n\nThe probability that a flower will be setosa  with the petal length of 5 is:  2.5122190818728214e-90\nThe probability that a flower will be versicolor  with the petal length of 5 is:  0.3591766144499696\nThe probability that a flower will be virginica  with the petal length of 5 is:  0.6408233855500304"
   }
 ]

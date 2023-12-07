@@ -1,0 +1,75 @@
+---
+title: "Probability"
+author: "Janelle Rose"
+date: now
+categories: 
+  - Probability
+  - Naive Bayes
+  - Probability Density Function 
+---
+
+This blog post will use Naive Bayes classification to calculate the likelihood of a flower species given its petal length. The example will use a single flower with the petal length of 5 and calculate the probability of it being in each flower species. 
+
+# Data
+```{python}
+import seaborn as sns
+df = sns.load_dataset("iris")
+df.head()
+```
+
+## Frequncy Counts
+
+Calculate the frequency of each flower species in the dataset.
+
+```{python}
+df_freq = df['species'].value_counts()
+df_freq
+```
+
+# Probability Desity FUnction plot
+ 
+From looking at the probility density function plot it looks like a flower with a petal length of 5 will be a virginica. We'll check the numbers in the next section. 
+
+```{python}
+import matplotlib.pyplot as plt
+ax = sns.displot(df, x="petal_length", kde=True, hue="species", stat="density")
+plt.axvline(x = 5, color = 'black')
+```
+
+## Naive Bayes CLassification calculation 
+
+**Equation**
+\begin{equation}
+f(y \; | \;  x_2) = \frac{f(y)L(y \; | \;  x_2)}{f(x_2)} = \frac{f(y)L(y \; | \;  x_2)}{\sum_{\text{all } y'} f(y')L(y' \; | \;  x_2)}  .
+\tag{14.4}
+\end{equation}
+
+**Calculation Prep**
+```{python}
+from scipy.stats import norm
+
+#L(y = setosa | petal_length is 5)
+setosa_pdf = norm.pdf(5, 1.462, 0.173664)
+
+#L(y = versicolor | petal_length is 5)
+versicolor_pdf = norm.pdf(5, 4.260, 0.469911)
+
+#L(y = virginica | petal_length is 5)
+virginica_pdf = norm.pdf(5, 5.552, 0.551895)
+
+#marginal pdf of observing a flower with a petal length of 5 (Denominator of the Equation)
+m_pdf_5 = (50/150 * setosa_pdf) + (50/150 * versicolor_pdf) + (50/150 *  virginica_pdf)
+```
+
+```{python}
+prob_setosa = (50/150 * setosa_pdf) /m_pdf_5
+prob_versicolor = (50/150 * versicolor_pdf) /m_pdf_5
+prob_virginica = (50/150 * virginica_pdf) /m_pdf_5
+
+print('The probability that a flower will be setosa  with the petal length of 5 is: ', prob_setosa)
+print('The probability that a flower will be versicolor  with the petal length of 5 is: ', prob_versicolor)
+print('The probability that a flower will be virginica  with the petal length of 5 is: ', prob_virginica)
+```
+
+# Conclusion 
+Using the naive Bayes classification approach, there is a **64.08%** change that a flower with a petal length of 5 will be virginia. This aligns with what we see in the probability density function plot. 
